@@ -39,11 +39,18 @@ class AddProductNetworkManager {
     }
   }
 
-  static Future<AgencyStock> getAgencyStock() async {
+  static Future<AgencyStock> getAgencyStock(String customer, String supplier, String salesman, String subparty) async {
     AgencyStock? agencyStock;
+    Map<String, dynamic> bodyMap = {
+      'CustomerID' : customer,
+      'SupplierID' : supplier,
+      'salesmanId' : salesman,
+      'PartyID' : subparty
+    };
     Map<String, dynamic> returnMap = await ApiHelper.hitApi(
       api: StringConstants.showAgencyStock,
-      callType: StringConstants.postCall
+      callType: StringConstants.postCall,
+      fieldsMap: bodyMap
     );
     if (returnMap.containsKey('exception')) {
       agencyStock = AgencyStock();
@@ -55,17 +62,185 @@ class AddProductNetworkManager {
       agencyStock.status = false;
       agencyStock.message = returnMap['error'];
       return agencyStock;
-    } else {
+    }
+    else {
       agencyStock = AgencyStock.fromJson(returnMap['body']);
       return agencyStock;
     }
   }
 
-  static Future<AddVisit> getSaveAgencyDiscountoutpdf() async {
+  static Future<AddVisit> getSaveAgencyDiscountoutpdf(String customer, String supplier, String city) async {
     AddVisit? addvisit;
+    Map<String, dynamic> bodyMap = {
+      'AppUserName' : 'a',
+      'CustomerId' : customer,
+      'SupplierId' : supplier,
+      'CityId' : city,
+    };
     Map<String, dynamic> returnMap = await ApiHelper.hitApi(
       api: 'ORDER/SaveAgencyDiscountoutpdf',
-      callType: StringConstants.postCall
+      callType: StringConstants.postCall,
+      fieldsMap: bodyMap
+    );
+    if (returnMap.containsKey('exception')) {
+      addvisit = AddVisit();
+      addvisit.status = false;
+      addvisit.message = returnMap['exception'];
+      return addvisit;
+    } else if (returnMap.containsKey('statusCode')) {
+      addvisit = AddVisit();
+      addvisit.status = false;
+      addvisit.message = returnMap['error'];
+      return addvisit;
+    } else {
+      addvisit = AddVisit.fromJson(returnMap['body']);
+      return addvisit;
+    }
+  }
+
+  static Future<AddVisit> getListSaleBills (String account, String party, String salesman) async {
+    AddVisit? addvisit;
+    Map<String, dynamic> bodyMap = {
+      'AccountID' : account,
+      'PartyID' : party,
+      'SalesmanID' : salesman,
+    };
+    Map<String, dynamic> returnMap = await ApiHelper.hitApi(
+      api: StringConstants.listsalebills,
+      callType: StringConstants.postCall,
+      fieldsMap: bodyMap
+    );
+    if (returnMap.containsKey('exception')) {
+      addvisit = AddVisit();
+      addvisit.status = false;
+      addvisit.message = returnMap['exception'];
+      return addvisit;
+    } else if (returnMap.containsKey('statusCode')) {
+      addvisit = AddVisit();
+      addvisit.status = false;
+      addvisit.message = returnMap['error'];
+      return addvisit;
+    } else {
+      addvisit = AddVisit.fromJson(returnMap['body']);
+      return addvisit;
+    }
+  }
+
+  static Future<AddVisit> getLedger (String account, String city) async {
+    AddVisit? addvisit;
+    Map<String, dynamic> bodyMap = {
+      'accountid' : account,
+      'valid' : 'Y',
+      'chkbarred' : 'N',
+      'rdoDetailed' : 'Y',
+      'rdoSummary' : 'N',
+      'chkShowInterest' : 'N',
+      'rdoReceivable' : 'Y',
+      'chklsbaddebts' : 'Y',
+      'chkseparatePage' : 'N',
+      'ExportFileName' : '25993819May2023133648',
+      'PartyID' : city,
+      'appUserName' : 'a'
+    };
+    Map<String, dynamic> returnMap = await ApiHelper.hitApi(
+      api: StringConstants.columnarLedger,
+      callType: StringConstants.postCall,
+      fieldsMap: bodyMap
+    );
+    if (returnMap.containsKey('exception')) {
+      addvisit = AddVisit();
+      addvisit.status = false;
+      addvisit.message = returnMap['exception'];
+      return addvisit;
+    } else if (returnMap.containsKey('statusCode')) {
+      addvisit = AddVisit();
+      addvisit.status = false;
+      addvisit.message = returnMap['error'];
+      return addvisit;
+    } else {
+      addvisit = AddVisit.fromJson(returnMap['body']);
+      return addvisit;
+    }
+  }
+
+  static Future<AddVisit> getOrderEntry (String account, String city, String salesmanid, String supplier, String style, String transport, String own) async {
+    AddVisit? addvisit;
+    Map<String, dynamic> bodyMap = {
+      'VchDate' : "account",
+      'cashPartyName' : 'Y',
+      'StoreID' : 'N',
+      'CustomerID' : account,
+      'CustomerName' : 'N',
+      'PartyID' : 'N',
+      'PartyName' : 'Y',
+      'AgencyVisitName' : 'Y',
+      'Method' : 'N',
+      'GivenBy' : '25993819May2023133648',
+      'DispatchDays' : city,
+      'DeliveryDate' : 'a',
+      'TransportID' : transport,
+      'Booking' : 'a',
+      'Marka' : 'a',
+      'OwnFirmID' : own,
+      'CustomerFirmID' : 'a',
+      'UserID' : 'a',
+      'SalesmanID' : salesmanid,
+      'SupplierID' : supplier,
+      'StyleCategoryID' : style,
+      'StyleCategoryName' : 'a',
+      'BillingType' : 'a',
+      'BillingTypeID' : 'a',
+      'NoOfCases' : 'a',
+      'Pcs' : 'a',
+      'Amount' : 'a',
+      'DetailRemark' : 'a',
+      'DispatchRemark' : 'a',
+      'BillingPercentage' : 'a',
+      'shippingFirmId' : 'a',
+    };
+    Map<String, dynamic> returnMap = await ApiHelper.hitApi(
+      api: StringConstants.bookOrder,
+      callType: StringConstants.postCall,
+      fieldsMap: bodyMap
+    );
+    if (returnMap.containsKey('exception')) {
+      addvisit = AddVisit();
+      addvisit.status = false;
+      addvisit.message = returnMap['exception'];
+      return addvisit;
+    } else if (returnMap.containsKey('statusCode')) {
+      addvisit = AddVisit();
+      addvisit.status = false;
+      addvisit.message = returnMap['error'];
+      return addvisit;
+    } else {
+      addvisit = AddVisit.fromJson(returnMap['body']);
+      return addvisit;
+    }
+  }
+
+  static Future<AddVisit> getAddVisit (String salesman, String account, String party, String own) async {
+    AddVisit? addvisit;
+    Map<String, dynamic> bodyMap = {
+      'accountId' : account,
+      'PartyId' : party,
+      'DueDate' : 'N',
+      'OwnFirmId' : own,
+      'CustomerFirmId' : 'N',
+      'SalesmanId' : salesman,
+      'Amount' : 'Y',
+      'CreditLimit' : 'Y',
+      'agencyVisitName' : 'N',
+      'BillingPercentage' : '25993819May2023133648',
+      'dueDays' : '',
+      'shippingFirmId' : 'a',
+      'AgencyBillingTypeNameList' : 'a',
+      'AgencyBillingTypeIDList' : 'a',
+    };
+    Map<String, dynamic> returnMap = await ApiHelper.hitApi(
+      api: StringConstants.addvisits,
+      callType: StringConstants.postCall,
+      fieldsMap: bodyMap
     );
     if (returnMap.containsKey('exception')) {
       addvisit = AddVisit();
@@ -87,7 +262,7 @@ class AddProductNetworkManager {
     ListStyleCategory? listStyleCategory;
     Map<String, dynamic> bodyMap = {'supplierId': supplierid};
     Map<String, dynamic> returnMap = await ApiHelper.hitApi(
-        api: StringConstants.liststylecategories,
+        api: StringConstants.listStyleCategories,
         callType: StringConstants.postCall,
         fieldsMap: bodyMap
     );
@@ -107,33 +282,48 @@ class AddProductNetworkManager {
     }
   }
 
-  static Future<ListAgencyVisits> getAgencyVisits() async {
+  static Future<ListAgencyVisits> getAgencyVisits(String customer, String party, String salesman) async {
   ListAgencyVisits? listAgencyVisits;
+  Map<String, dynamic> bodyMap = {
+    'accountId' : customer,
+    'partyId' : party,
+    'salesmanId' : salesman
+  };
   Map<String, dynamic> returnMap = await ApiHelper.hitApi(
       api: StringConstants.listagencyvisits,
-      callType: StringConstants.postCall
+      callType: StringConstants.postCall,
+    fieldsMap: bodyMap
   );
   if (returnMap.containsKey('exception')) {
     listAgencyVisits = ListAgencyVisits();
     listAgencyVisits.status = false;
     listAgencyVisits.message = returnMap['exception'];
     return listAgencyVisits;
-  } else if (returnMap.containsKey('statusCode')) {
+  } else if (returnMap.containsKey('statusCode'))
+  {
     listAgencyVisits = ListAgencyVisits();
     listAgencyVisits.status = false;
     listAgencyVisits.message = returnMap['error'];
     return listAgencyVisits;
-  } else {
+  }
+  else {
     listAgencyVisits = ListAgencyVisits.fromJson(returnMap['body']);
     return listAgencyVisits;
   }
 }
 
-  static Future<AgencyStock> getOrderStatus() async {
+  static Future<AgencyStock> getOrderStatus(String customer, String supplier, String salesman, String subparty) async {
     AgencyStock? agencyStock;
+    Map<String, dynamic> bodyMap = {
+      'CustomerID' : customer,
+      'SupplierID' : supplier,
+      'salesmanId' : salesman,
+      'PartyID' : subparty
+    };
     Map<String, dynamic> returnMap = await ApiHelper.hitApi(
       api: StringConstants.showbookedorders,
-      callType: StringConstants.postCall
+      callType: StringConstants.postCall,
+      fieldsMap: bodyMap
     );
     if (returnMap.containsKey('exception')) {
       agencyStock = AgencyStock();
@@ -177,8 +367,87 @@ class AddProductNetworkManager {
     }
   }
 
-  static Future<CreditLimitStatus> getCreditLimit(String accountid) async {
-    CreditLimitStatus? creditLimitStatus;
+  static Future<PartyData> getCustomerFirm(String accountid) async {
+    PartyData? party;
+    Map<String, dynamic> bodyMap = {
+      'accountid' : accountid
+    };
+    Map<String, dynamic> returnMap = await ApiHelper.hitApi(
+      api: StringConstants.listFirmNameOfParties,
+      callType: StringConstants.postCall,
+      fieldsMap: bodyMap
+    );
+    if (returnMap.containsKey('exception')) {
+      party = PartyData();
+      party.status = false;
+      party.message = returnMap['exception'];
+      return party;
+    } else if (returnMap.containsKey('statusCode')) {
+      party = PartyData();
+      party.status = false;
+      party.message = returnMap['error'];
+      return party;
+    } else {
+      party = PartyData.fromJson(returnMap['body']);
+      return party;
+    }
+  }
+
+  static Future<ListAgencyVisits> getVisit(String partyid) async {
+    ListAgencyVisits? listAgencyVisits;
+    Map<String, dynamic> bodyMap = {
+      'partyId' : partyid
+    };
+    Map<String, dynamic> returnMap = await ApiHelper.hitApi(
+      api: StringConstants.listagencyvisits,
+      callType: StringConstants.postCall,
+      fieldsMap: bodyMap
+    );
+    if (returnMap.containsKey('exception')) {
+      listAgencyVisits = ListAgencyVisits();
+      listAgencyVisits.status = false;
+      listAgencyVisits.message = returnMap['exception'];
+      return listAgencyVisits;
+    } else if (returnMap.containsKey('statusCode')) {
+      listAgencyVisits = ListAgencyVisits();
+      listAgencyVisits.status = false;
+      listAgencyVisits.message = returnMap['error'];
+      return listAgencyVisits;
+    } else {
+      listAgencyVisits = ListAgencyVisits.fromJson(returnMap['body']);
+      return listAgencyVisits;
+    }
+  }
+
+  static Future<PartyData> getShippingFirm(String accountid, String partyid) async {
+    PartyData? party;
+    Map<String, dynamic> bodyMap = {
+      'accountid' : accountid,
+      'partyid' : partyid
+    };
+    Map<String, dynamic> returnMap = await ApiHelper.hitApi(
+      api: StringConstants.listFirmNameOfParties,
+      callType: StringConstants.postCall,
+      fieldsMap: bodyMap
+    );
+    if (returnMap.containsKey('exception')) {
+      party = PartyData();
+      party.status = false;
+      party.message = returnMap['exception'];
+      return party;
+    } else if (returnMap.containsKey('statusCode')) {
+      party = PartyData();
+      party.status = false;
+      party.message = returnMap['error'];
+      return party;
+    } else {
+      party = PartyData.fromJson(returnMap['body']);
+      return party;
+    }
+  }
+
+  static Future<CreditLimitStatusModel> getCreditLimit(String accountid) async {
+    CreditLimitStatusModel? creditLimitStatus;
     Map<String, dynamic> bodyMap = {
       'accountid' : accountid
     };
@@ -188,17 +457,17 @@ class AddProductNetworkManager {
       fieldsMap: bodyMap
     );
     if (returnMap.containsKey('exception')) {
-      creditLimitStatus = CreditLimitStatus();
+      creditLimitStatus = CreditLimitStatusModel();
       creditLimitStatus.status = false;
       creditLimitStatus.message = returnMap['exception'];
       return creditLimitStatus;
     } else if (returnMap.containsKey('statusCode')) {
-      creditLimitStatus = CreditLimitStatus();
+      creditLimitStatus = CreditLimitStatusModel();
       creditLimitStatus.status = false;
       creditLimitStatus.message = returnMap['error'];
       return creditLimitStatus;
     } else {
-      creditLimitStatus = CreditLimitStatus.fromJson(returnMap['body']);
+      creditLimitStatus = CreditLimitStatusModel.fromJson(returnMap['body']);
       return creditLimitStatus;
     }
   }
@@ -225,11 +494,31 @@ class AddProductNetworkManager {
       return addVisit;
     } else {
       addVisit = AddVisit.fromJson(returnMap['body']);
+      return addVisit;}}
+
+  static Future<AddVisit> getPendingAgencyVisitLimit(String accountid) async {
+    AddVisit? addVisit;
+    Map<String, dynamic> bodyMap = {
+      'accountid' : accountid
+    };
+    Map<String, dynamic> returnMap = await ApiHelper.hitApi(
+      api: StringConstants.showpendingagencyvisitlimit,
+      callType: StringConstants.postCall,
+      fieldsMap: bodyMap
+    );
+    if (returnMap.containsKey('exception')) {
+      addVisit = AddVisit();
+      addVisit.status = false;
+      addVisit.message = returnMap['exception'];
       return addVisit;
-    }
-  }
-
-
+    } else if (returnMap.containsKey('statusCode')) {
+      addVisit = AddVisit();
+      addVisit.status = false;
+      addVisit.message = returnMap['error'];
+      return addVisit;
+    } else {
+      addVisit = AddVisit.fromJson(returnMap['body']);
+      return addVisit;}}
   // static Future<AddVisit> addVisit (bodyMap) async{
   //   AddVisit model;
   //   Map<String, dynamic> returnData = {"Status": false, "Message": ""};
@@ -255,11 +544,46 @@ class AddProductNetworkManager {
   //   }
   // }
 
-  static Future<AgencyStock> getPendingOrder() async{
+  static Future<AgencyStock> getPendingOrder(String customer, String supplier, String salesman, String subparty) async{
     AgencyStock? agencyStock;
+    Map<String, dynamic> bodyMap ={
+      'CustomerID' : customer,
+      'SupplierID' : supplier,
+      'salesmanId' : salesman,
+      'PartyID' : subparty
+    };
     Map<String, dynamic> returnMap = await ApiHelper.hitApi(
       api: StringConstants.showagencypendingorders,
-      callType: StringConstants.postCall
+      callType: StringConstants.postCall,
+      fieldsMap: bodyMap
+    );
+    if (returnMap.containsKey('exception')) {
+      agencyStock = AgencyStock();
+      agencyStock.status = false;
+      agencyStock.message = returnMap['exception'];
+      return agencyStock;
+    } else if (returnMap.containsKey('statusCode')) {
+      agencyStock = AgencyStock();
+      agencyStock.status = false;
+      agencyStock.message = returnMap['error'];
+      return agencyStock;
+    } else {
+      agencyStock = AgencyStock.fromJson(returnMap['body']);
+      return agencyStock;
+    }
+  }
+
+  static Future<AgencyStock> getShowBill(String account, String party, String salesman) async{
+    AgencyStock? agencyStock;
+    Map<String, dynamic> bodyMap ={
+      'AccountID' : account,
+      'PartyID' : party,
+      'salesmanId' : salesman,
+    };
+    Map<String, dynamic> returnMap = await ApiHelper.hitApi(
+      api: StringConstants.showagencypendingorders,
+      callType: StringConstants.postCall,
+      fieldsMap: bodyMap
     );
     if (returnMap.containsKey('exception')) {
       agencyStock = AgencyStock();

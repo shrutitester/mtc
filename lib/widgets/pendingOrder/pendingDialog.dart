@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:myapp/widgets/pendingOrder/remarkDialog.dart';
 
 import '../../constants/colorConstants.dart';
@@ -10,7 +9,7 @@ import '../../utils/lot-of-themes.dart';
 
 class PendingDialog extends StatefulWidget {
   final Orders orders;
-  const PendingDialog(this.orders);
+  const PendingDialog(this.orders, {super.key});
 
   @override
   State<PendingDialog> createState() => _PendingDialogState();
@@ -54,9 +53,9 @@ class _PendingDialogState extends State<PendingDialog> {
                               ),
                               borderRadius:
                               const BorderRadius.all(Radius.circular(6))),
-                          child: Row(
+                          child: const Row(
                             children: [
-                              const Icon(Icons.download_rounded,
+                              Icon(Icons.download_rounded,
                                   size: 16, color: Colors.white),
                               // Text(
                               //   " Download Pdf",
@@ -84,11 +83,11 @@ class _PendingDialogState extends State<PendingDialog> {
                         SizedBox(
                             width: 100,
                             child: LotOfThemes.smallHeading1(StringConstants.vchNo)),
-                        Expanded(child: LotOfThemes.smallTxt1(widget?.orders?.vchNo ??'')),
+                        Expanded(child: LotOfThemes.smallTxt1(widget.orders.vchNo ??'')),
                         SizedBox(
                             width: 70, child: LotOfThemes.smallHeading1(StringConstants.dispatchDate)),
                         Expanded(
-                            child: LotOfThemes.smallTxt1(widget?.orders?.vchDate?.replaceRange(9, 21, ' ')??'')),
+                            child: LotOfThemes.smallTxt1(widget.orders.vchDate?.replaceRange(9, 21, ' ')??'')),
                       ],
                     ),
                     marginBottom(),
@@ -98,11 +97,11 @@ class _PendingDialogState extends State<PendingDialog> {
                         SizedBox(
                             width: 100,
                             child: LotOfThemes.smallHeading1(StringConstants.orderDate)),
-                        Expanded(child: LotOfThemes.smallTxt1(widget?.orders?.deliveryDate?.replaceRange(9, 21, ' ') ??'')),
+                        Expanded(child: LotOfThemes.smallTxt1(widget.orders.deliveryDate?.replaceRange(9, 21, ' ') ??'')),
                         SizedBox(
                             width: 70,
                             child: LotOfThemes.smallHeading1(StringConstants.orderNo)),
-                        Expanded(child: LotOfThemes.smallTxt1(widget?.orders?.orderNo??'')),
+                        Expanded(child: LotOfThemes.smallTxt1(widget.orders.orderNo??'')),
                       ],
                     ),
                     marginBottom(),
@@ -113,7 +112,7 @@ class _PendingDialogState extends State<PendingDialog> {
                             width: 100,
                             child: LotOfThemes.smallHeading1(StringConstants.customer)),
                         Expanded(
-                            child: LotOfThemes.smallTxt1(widget?.orders?.customerName??'')),
+                            child: LotOfThemes.smallTxt1(widget.orders.customerName??'')),
                       ],
                     ),
                     marginBottom(),
@@ -124,7 +123,7 @@ class _PendingDialogState extends State<PendingDialog> {
                             width: 100,
                             child: LotOfThemes.smallHeading1(StringConstants.supplier)),
                         Expanded(
-                            child: LotOfThemes.smallTxt1(widget?.orders?.supplierName??'')),
+                            child: LotOfThemes.smallTxt1(widget.orders.supplierName??'')),
                       ],
                     ),
                     marginBottom(),
@@ -133,11 +132,11 @@ class _PendingDialogState extends State<PendingDialog> {
                       children: [
                         SizedBox(
                             width: 100, child: LotOfThemes.smallHeading1(StringConstants.pcs)),
-                        Expanded(child: LotOfThemes.smallTxt1(widget?.orders?.pcs ??'')),
+                        Expanded(child: LotOfThemes.smallTxt1(widget.orders.pcs ??'')),
                         SizedBox(
                             width: 70,
                             child: LotOfThemes.smallHeading1(StringConstants.cases)),
-                        Expanded(child: LotOfThemes.smallTxt1(widget?.orders?.noOfCases??'')),
+                        Expanded(child: LotOfThemes.smallTxt1(widget.orders.noOfCases??'')),
                       ],
                     ),
                     marginBottom(),
@@ -148,7 +147,7 @@ class _PendingDialogState extends State<PendingDialog> {
                             width: 100,
                             child: LotOfThemes.smallHeading1(StringConstants.storeName)),
                         Expanded(
-                            child: LotOfThemes.smallTxt1(widget?.orders?.orderFormNo??'')),
+                            child: LotOfThemes.smallTxt1(widget.orders.orderFormNo??'')),
                       ],
                     ),
                     marginBottom(),
@@ -158,7 +157,7 @@ class _PendingDialogState extends State<PendingDialog> {
                         SizedBox(
                             width: 100,
                             child: LotOfThemes.smallHeading1(StringConstants.partyName)),
-                        Expanded(child: LotOfThemes.smallTxt1(widget?.orders?.partyName??'')),
+                        Expanded(child: LotOfThemes.smallTxt1(widget.orders.partyName??'')),
                       ],
                     ),
                     marginBottom(),
@@ -168,7 +167,7 @@ class _PendingDialogState extends State<PendingDialog> {
                         SizedBox(
                             width: 100,
                             child: LotOfThemes.smallHeading1(StringConstants.cashPartyName)),
-                        Expanded(child: LotOfThemes.smallTxt1(widget?.orders?.cashPartyName??'')),
+                        Expanded(child: LotOfThemes.smallTxt1(widget.orders.cashPartyName??'')),
                       ],
                     ),
                     marginBottom(),
@@ -178,7 +177,7 @@ class _PendingDialogState extends State<PendingDialog> {
                         SizedBox(
                             width: 100,
                             child: LotOfThemes.smallHeading1(StringConstants.orderMode)),
-                        Expanded(child: LotOfThemes.smallTxt1(widget?.orders?.method??'')),
+                        Expanded(child: LotOfThemes.smallTxt1(widget.orders.method??'')),
                       ],
                     ),
                     marginBottom(),
@@ -189,7 +188,7 @@ class _PendingDialogState extends State<PendingDialog> {
                             width: 100,
                             child: LotOfThemes.smallHeading1(StringConstants.transport)),
                         Expanded(
-                            child: LotOfThemes.smallTxt1(widget?.orders?.transportName??'')),
+                            child: LotOfThemes.smallTxt1(widget.orders.transportName??'')),
                       ],
                     ),
                     marginBottom(),
@@ -199,7 +198,7 @@ class _PendingDialogState extends State<PendingDialog> {
                         SizedBox(
                             width: 100,
                             child: LotOfThemes.smallHeading1(StringConstants.dispatchDays)),
-                        Expanded(child: LotOfThemes.smallTxt1(widget?.orders?.dispatchDays??'')),
+                        Expanded(child: LotOfThemes.smallTxt1(widget.orders.dispatchDays??'')),
                       ],
                     ),
                     marginBottom(),
@@ -209,7 +208,7 @@ class _PendingDialogState extends State<PendingDialog> {
                         SizedBox(
                             width: 100,
                             child: LotOfThemes.smallHeading1(StringConstants.booking)),
-                        Expanded(child: LotOfThemes.smallTxt1(widget?.orders?.booking??'')),
+                        Expanded(child: LotOfThemes.smallTxt1(widget.orders.booking??'')),
                       ],
                     ),
                     marginBottom(),
@@ -219,7 +218,7 @@ class _PendingDialogState extends State<PendingDialog> {
                         SizedBox(
                             width: 100,
                             child: LotOfThemes.smallHeading1(StringConstants.itemRemark)),
-                        Expanded(child: LotOfThemes.smallTxt1(widget?.orders?.detailRemark??'')),
+                        Expanded(child: LotOfThemes.smallTxt1(widget.orders.detailRemark??'')),
                       ],
                     ),
                     marginBottom(),
@@ -229,7 +228,7 @@ class _PendingDialogState extends State<PendingDialog> {
                         SizedBox(
                             width: 100,
                             child: LotOfThemes.smallHeading1(StringConstants.customerFirm)),
-                        Expanded(child: LotOfThemes.smallTxt1(widget?.orders?.customerFirmName??'')),
+                        Expanded(child: LotOfThemes.smallTxt1(widget.orders.customerFirmName??'')),
                       ],
                     ),
                     marginBottom(),
@@ -240,7 +239,7 @@ class _PendingDialogState extends State<PendingDialog> {
                             width: 100,
                             child: LotOfThemes.smallHeading1(StringConstants.shippingFirm)),
                         Expanded(
-                            child: LotOfThemes.smallTxt1(widget?.orders?.shippingFirmName??'')),
+                            child: LotOfThemes.smallTxt1(widget.orders.shippingFirmName??'')),
                       ],
                     ),
                     marginBottom(),
@@ -252,7 +251,7 @@ class _PendingDialogState extends State<PendingDialog> {
                             child: LotOfThemes.smallHeading1(StringConstants.styleCategory)),
                         Expanded(
                             child:
-                            LotOfThemes.smallTxt1(widget?.orders?.styleCategoryName??'')),
+                            LotOfThemes.smallTxt1(widget.orders.styleCategoryName??'')),
                       ],
                     ),
                     marginBottom(),
@@ -264,7 +263,7 @@ class _PendingDialogState extends State<PendingDialog> {
                             child: LotOfThemes.smallHeading1(StringConstants.salesman)),
                         Expanded(
                             child:
-                            LotOfThemes.smallTxt1(widget?.orders?.salesmanName ??'')),
+                            LotOfThemes.smallTxt1(widget.orders.salesmanName ??'')),
                       ],
                     ),
                     marginBottom(),
@@ -273,7 +272,7 @@ class _PendingDialogState extends State<PendingDialog> {
                       children: [
                         SizedBox(
                             width: 100, child: LotOfThemes.smallHeading1(StringConstants.billingType)),
-                        Expanded(child: LotOfThemes.smallTxt1(widget?.orders?.billingType??'')),
+                        Expanded(child: LotOfThemes.smallTxt1(widget.orders.billingType??'')),
                       ],
                     ),
                     marginBottom(),
@@ -283,7 +282,7 @@ class _PendingDialogState extends State<PendingDialog> {
                         SizedBox(
                             width: 100,
                             child: LotOfThemes.smallHeading1(StringConstants.billingDays)),
-                        Expanded(child: LotOfThemes.smallTxt1(widget?.orders?.billingPercentage??'')),
+                        Expanded(child: LotOfThemes.smallTxt1(widget.orders.billingPercentage??'')),
                       ],
                     ),
                     marginBottom(),
@@ -293,7 +292,7 @@ class _PendingDialogState extends State<PendingDialog> {
                         SizedBox(
                             width: 100,
                             child: LotOfThemes.smallHeading1(StringConstants.amt)),
-                        Expanded(child: LotOfThemes.smallTxt1(widget?.orders?.amount??'')),
+                        Expanded(child: LotOfThemes.smallTxt1(widget.orders.amount??'')),
                       ],
                     ),
                     marginBottom(),
@@ -303,7 +302,7 @@ class _PendingDialogState extends State<PendingDialog> {
                         SizedBox(
                             width: 100,
                             child: LotOfThemes.smallHeading1(StringConstants.dispatchRemark)),
-                        Expanded(child: LotOfThemes.smallTxt1(widget?.orders?.dispatchRemark??'')),
+                        Expanded(child: LotOfThemes.smallTxt1(widget.orders.dispatchRemark??'')),
                       ],
                     ),
                   ],

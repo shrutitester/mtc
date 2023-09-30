@@ -1,4 +1,4 @@
-import 'package:dropdown_search/dropdown_search.dart';
+import 'package:custom_searchable_dropdown/custom_searchable_dropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -6,7 +6,7 @@ import 'package:myapp/constants/colorConstants.dart';
 import 'package:myapp/constants/stringConstants.dart';
 import 'package:myapp/controller/add-product-controller.dart';
 
-import '../component/custom-drop-down.dart';
+import '../component/roundedInputField.dart';
 import '../model/listParties.dart';
 import '../utils/lot-of-themes.dart';
 
@@ -19,7 +19,8 @@ class PendingCreditLimit extends StatefulWidget {
 
 class _PendingCreditLimitState extends State<PendingCreditLimit> {
   Parties? selectedAccountValue;
-  String? selectedAccountName = 'Select Account', accountid = '';
+  String? selectedAccountName = 'Select Account', accountid = '', balance = '';
+  var selected;
 
   @override
   Widget build(BuildContext context) {
@@ -50,49 +51,41 @@ class _PendingCreditLimitState extends State<PendingCreditLimit> {
                 StringConstants.selectCustomer,
                 style: TextStyle(fontSize: 12),
               ),
-              DropDown(
-                  menuItem: listAccountWidgets(controller),
-                  hint: StringConstants.selectAccount,
-                  selectedValue: selectedAccountValue,
-                  onChanged: (value)  {
-                    setState(()  {
-                      selectedAccountValue = value;
-                      selectedAccountName = selectedAccountValue!.accountName;
-                      accountid = selectedAccountValue!.accountId;
+              CustomSearchableDropDown(
+                items: controller.account ?? [],
+                label: StringConstants.selectAccount,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(4),
+                    border: Border.all(
+                        color: Colors.grey)),
+                dropDownMenuItems: controller.account?.map((item) {
+                  return item.accountName;}).toList() ?? [],
+                onChanged: (value){
+                  if(value!=null) {selected = value.toString();} else{selected=null;}
+                  setState(() => {
+                    selectedAccountValue = value,
+                    selectedAccountName = selectedAccountValue!.accountName,
+                    accountid = selectedAccountValue!.accountId!});
+                  controller.getPendingCreditLimit(accountid!);
 
-                    });
-
-                  }),
-              // Container(
-              //     height: 45,
-              //     width: MediaQuery
-              //         .of(context)
-              //         .size
-              //         .width,
-              //     padding: const EdgeInsets.symmetric(horizontal: 16),
-              //     decoration: BoxDecoration(
-              //         border: Border.all(color: Colors.grey, width: 1),
-              //         borderRadius: BorderRadius.circular(5)),
-              //     child: DropdownSearch<String>(
-              //       popupProps: PopupProps.dialog(
-              //           dialogProps: DialogProps(
-              //             shape: RoundedRectangleBorder(
-              //                 borderRadius: BorderRadius.circular(2)),
-              //           ),
-              //           showSearchBox: true, showSelectedItems: true),
-              //       items: const ['abc', 'xyz', 'stu', 'qwe', 'asd', 'rtg'],
-              //       dropdownDecoratorProps: const DropDownDecoratorProps(
-              //           dropdownSearchDecoration: InputDecoration(
-              //               border: InputBorder.none,
-              //               hintText: StringConstants.selectAccount)),
-              //       onChanged: (val) {
-              //         // selectedCustomer = val;
-              //         setState(() {
-              //           // initializeState(val);
-              //         });
-              //       },
-              //       // selectedItem: _chosenValue1,
-              //     )),
+                },),
+              // DropDown(
+              //     menuItem: listAccountWidgets(controller),
+              //     hint: StringConstants.selectAccount,
+              //     selectedValue: selectedAccountValue,
+              //     onChanged: (value)  {
+              //       setState(()  {
+              //         selectedAccountValue = value;
+              //         selectedAccountName = selectedAccountValue!.accountName;
+              //         // accountid = selectedAccountValue!.accountId;
+              //          controller.getPendingCreditLimit(selectedAccountValue!.accountId!);
+              //       });
+              //       // await controller.getPendingCreditLimit(selectedAccountValue!.accountId!);
+              //     }),
+              // const Text(
+              //   StringConstants.selectCustomer,
+              //   style: TextStyle(fontSize: 12),
+              // ),
               const SizedBox(
                 height: 10,
               ),
@@ -100,11 +93,22 @@ class _PendingCreditLimitState extends State<PendingCreditLimit> {
                 StringConstants.balance,
                 style: TextStyle(fontSize: 12),
               ),
+              RoundedInputField(
+                initialValue: controller.addVisit?.message??'',
+                keyboardType: TextInputType.text,
+                textinputAction:
+                TextInputAction.next,
+                onChanged: (value) {
+                  setState(() {
+                    balance = value;
+                  });
+                },
+              ),
+              const SizedBox(
+                height: 20,
+              ),
               Container(
-                width: MediaQuery
-                    .of(context)
-                    .size
-                    .width,
+                width: MediaQuery.of(context).size.width,
                 height: 50,
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
@@ -113,13 +117,10 @@ class _PendingCreditLimitState extends State<PendingCreditLimit> {
                       color: ColorConstants.midGrey,
                     ),
                     borderRadius: const BorderRadius.all(Radius.circular(5))),
-                child: Text('${controller.addVisit?.message??''}',
+                child: Text(controller.addVisit?.message??'',
                   style: LotOfThemes.dark14,
                 ),
               ),
-              ElevatedButton(onPressed: ()async{
-                await controller.getPendingCreditLimit(accountid!);
-              }, child: Text('submit'))
             ],
           ),
         ),
@@ -127,13 +128,13 @@ class _PendingCreditLimitState extends State<PendingCreditLimit> {
     });
   }
 
-  listAccountWidgets(AddProductController controller) {
-    return controller.account!.map((item) =>
-        DropdownMenuItem<Parties>(
-            value: item,
-            child: Text(
-              '${item.accountName}', style: LotOfThemes.txt14DarkSmall,
-              overflow: TextOverflow.ellipsis,
-            ))).toList();
-  }
+  // listAccountWidgets(AddProductController controller) {
+  //   return controller.account!.map((item) =>
+  //       DropdownMenuItem<Parties>(
+  //           value: item,
+  //           child: Text(
+  //             '${item.accountName}', style: LotOfThemes.txt14DarkSmall,
+  //             overflow: TextOverflow.ellipsis,
+  //           ))).toList();
+  // }
 }

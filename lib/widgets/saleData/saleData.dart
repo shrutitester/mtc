@@ -1,4 +1,4 @@
-import 'package:dropdown_search/dropdown_search.dart';
+import 'package:custom_searchable_dropdown/custom_searchable_dropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -22,7 +22,9 @@ class SaleData extends StatefulWidget {
 class _SaleDataState extends State<SaleData> {
   Parties? selectedAccountValue;
   String? selectedAccountName = 'Select Account';
-  String accountid = '';
+  String accountid = '', account = '';
+  var selected;
+  List? selectedList;
 
   @override
   Widget build(BuildContext context) {
@@ -53,17 +55,33 @@ class _SaleDataState extends State<SaleData> {
                 flex: 2,
                 child: Column(
                   children: [
-                    DropDown(
-                        menuItem: listAccountWidgets(controller),
-                        hint: StringConstants.selectAccount,
-                        selectedValue: selectedAccountValue,
-                        onChanged: (value) => {
-                          setState(() => {
-                            selectedAccountValue = value,
-                            selectedAccountName = selectedAccountValue!.accountName,
-                            accountid = selectedAccountValue!.accountId!
-                          })
-                        }),
+                    // DropDown(
+                    //     menuItem: listAccountWidgets(controller),
+                    //     hint: StringConstants.selectAccount,
+                    //     selectedValue: selectedAccountValue,
+                    //     onChanged: (value) => {
+                    //           setState(() => {
+                    //                 selectedAccountValue = value,
+                    //                 selectedAccountName =
+                    //                     selectedAccountValue!.accountName,
+                    //                 accountid = selectedAccountValue!.accountId!
+                    //               })
+                    //         }),
+                    CustomSearchableDropDown(
+                      items: controller.account ?? [],
+                      label: StringConstants.selectAccount,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(4),
+                          border: Border.all(
+                              color: Colors.grey)),
+                      dropDownMenuItems: controller.account?.map((item) {
+                        return item.accountName;}).toList() ?? [],
+                      onChanged: (value){
+                        if(value!=null) {selected = value.toString();} else{selected=null;}
+                        setState(() => {
+                          selectedAccountValue = value,
+                          selectedAccountName = selectedAccountValue!.accountName,
+                          accountid = selectedAccountValue!.accountId!});},),
                     const SizedBox(
                       height: 10,
                     ),
@@ -74,8 +92,8 @@ class _SaleDataState extends State<SaleData> {
                             text: StringConstants.showBil,
                             btnColor: ColorConstants.primaryColor,
                             btnWidth: 300,
-                            press: () async{
-                              await controller.getSaleBills(accountid!);
+                            press: () async {
+                              await controller.getSaleBills(accountid);
                             }))
                   ],
                 ),
@@ -85,9 +103,9 @@ class _SaleDataState extends State<SaleData> {
                   child: ListView.builder(
                       shrinkWrap: true,
                       scrollDirection: Axis.vertical,
-                      itemCount: controller.bills!.length,
-                      itemBuilder: (BuildContext context, int index){
-                        return SaleDataListItem(controller.bills![index]);
+                      itemCount: controller.bills.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return SaleDataListItem(controller.bills[index]);
                       }))
             ],
           ),
@@ -96,12 +114,15 @@ class _SaleDataState extends State<SaleData> {
     });
   }
 
-  listAccountWidgets(AddProductController controller){
-    return controller.account!.map((item) => DropdownMenuItem<Parties>(
-        value: item,
-        child: Text('${item.accountName}',style: LotOfThemes.txt14DarkSmall,
-          overflow: TextOverflow.ellipsis,
-        ))).toList();
+  listAccountWidgets(AddProductController controller) {
+    return controller.account!
+        .map((item) => DropdownMenuItem<Parties>(
+            value: item,
+            child: Text(
+              '${item.accountName}',
+              style: LotOfThemes.txt14DarkSmall,
+              overflow: TextOverflow.ellipsis,
+            )))
+        .toList();
   }
-
 }

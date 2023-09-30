@@ -33,9 +33,9 @@ class _PendingOrderListItemState extends State<PendingOrderListItem> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   SizedBox(width: 100, child: LotOfThemes.smallHeading1(StringConstants.vchNo),),
-                  Expanded(child: LotOfThemes.smallTxt1(widget?.orders?.vchNo ?? '')),
+                  Expanded(child: LotOfThemes.smallTxt1(widget.orders.vchNo ?? '')),
                   SizedBox(width: 100, child: LotOfThemes.smallHeading1(StringConstants.dispatchDate),),
-                  Expanded(child: LotOfThemes.smallTxt1(widget?.orders?.vchDate?.replaceRange(9, 20, ' ') ?? '')),
+                  Expanded(child: LotOfThemes.smallTxt1(widget.orders.vchDate?.replaceRange(9, 20, ' ') ?? '')),
                 ],
               ),
               marginBottom(),
@@ -43,9 +43,9 @@ class _PendingOrderListItemState extends State<PendingOrderListItem> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   SizedBox(width: 100, child: LotOfThemes.smallHeading1(StringConstants.orderDate),),
-                  Expanded(child: LotOfThemes.smallTxt1(widget?.orders?.deliveryDate?.replaceRange(9, 20, ' ') ?? '')),
+                  Expanded(child: LotOfThemes.smallTxt1(widget.orders.deliveryDate?.replaceRange(9, 20, ' ') ?? '')),
                   SizedBox(width: 100, child: LotOfThemes.smallHeading1(StringConstants.orderNo),),
-                  Expanded(child: LotOfThemes.smallTxt1(widget?.orders?.orderNo?? '')),
+                  Expanded(child: LotOfThemes.smallTxt1(widget.orders.orderNo?? '')),
                 ],
               ),
               marginBottom(),
@@ -56,7 +56,7 @@ class _PendingOrderListItemState extends State<PendingOrderListItem> {
                       width: 100,
                       child: LotOfThemes.smallHeading1(StringConstants.customer)),
                   Expanded(
-                      child: LotOfThemes.smallTxt1(widget?.orders?.customerName ?? '')),
+                      child: LotOfThemes.smallTxt1(widget.orders.customerName ?? '')),
                 ],
               ),
               marginBottom(),
@@ -67,7 +67,7 @@ class _PendingOrderListItemState extends State<PendingOrderListItem> {
                       width: 100,
                       child: LotOfThemes.smallHeading1(StringConstants.supplier)),
                   Expanded(
-                      child: LotOfThemes.smallTxt1(widget?.orders?.supplierName ?? '')),
+                      child: LotOfThemes.smallTxt1(widget.orders.supplierName ?? '')),
                 ],
               ),
               marginBottom(),
@@ -75,9 +75,9 @@ class _PendingOrderListItemState extends State<PendingOrderListItem> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   SizedBox(width: 100, child: LotOfThemes.smallHeading1(StringConstants.pcs),),
-                  Expanded(child: LotOfThemes.smallTxt1(widget?.orders?.pcs ?? '')),
+                  Expanded(child: LotOfThemes.smallTxt1(widget.orders.pcs ?? '')),
                   SizedBox(width: 100, child: LotOfThemes.smallHeading1(StringConstants.cases),),
-                  Expanded(child: LotOfThemes.smallTxt1(widget?.orders?.noOfCases?? '')),
+                  Expanded(child: LotOfThemes.smallTxt1(widget.orders.noOfCases?? '')),
                 ],
               ),
             ],

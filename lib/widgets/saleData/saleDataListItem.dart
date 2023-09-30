@@ -33,9 +33,9 @@ class _SaleDataListItemState extends State<SaleDataListItem> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   SizedBox(width: 100, child: LotOfThemes.smallHeading1(StringConstants.vchNo),),
-                  Expanded(child: LotOfThemes.smallTxt1(widget?.bills?.vchNo ?? '')),
+                  Expanded(child: LotOfThemes.smallTxt1(widget.bills.vchNo ?? '')),
                   SizedBox(width: 100, child: LotOfThemes.smallHeading1(StringConstants.vchDate),),
-                  Expanded(child: LotOfThemes.smallTxt1(widget?.bills?.vchDate?.replaceRange(9, 20, ' ')??''))
+                  Expanded(child: LotOfThemes.smallTxt1(widget.bills.vchDate?.replaceRange(9, 20, ' ')??''))
                 ],
               ),
               marginBottom(),
@@ -46,7 +46,7 @@ class _SaleDataListItemState extends State<SaleDataListItem> {
                       width: 100,
                       child: LotOfThemes.smallHeading1(StringConstants.accountName)),
                   Expanded(
-                      child: LotOfThemes.smallTxt1(widget?.bills?.accountName ?? '')),
+                      child: LotOfThemes.smallTxt1(widget.bills.accountName ?? '')),
                 ],
               ),
               marginBottom(),
@@ -54,9 +54,9 @@ class _SaleDataListItemState extends State<SaleDataListItem> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   SizedBox(width: 100, child: LotOfThemes.smallHeading1(StringConstants.type),),
-                  Expanded(child: LotOfThemes.smallTxt1(widget?.bills?.type ?? '')),
+                  Expanded(child: LotOfThemes.smallTxt1(widget.bills.type ?? '')),
                   SizedBox(width: 100, child: LotOfThemes.smallHeading1(StringConstants.billNo),),
-                  Expanded(child: LotOfThemes.smallTxt1(widget?.bills?.billNo??''))
+                  Expanded(child: LotOfThemes.smallTxt1(widget.bills.billNo??''))
                 ],
               ),
               marginBottom(),
@@ -67,7 +67,7 @@ class _SaleDataListItemState extends State<SaleDataListItem> {
                       width: 100,
                       child: LotOfThemes.smallHeading1(StringConstants.rateType)),
                   Expanded(
-                      child: LotOfThemes.smallTxt1(widget?.bills?.rateType ?? '')),
+                      child: LotOfThemes.smallTxt1(widget.bills.rateType ?? '')),
                 ],
               ),
               marginBottom(),
@@ -75,9 +75,9 @@ class _SaleDataListItemState extends State<SaleDataListItem> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   SizedBox(width: 100, child: LotOfThemes.smallHeading1(StringConstants.qty),),
-                  Expanded(child: LotOfThemes.smallTxt1(widget?.bills?.qty ?? '')),
+                  Expanded(child: LotOfThemes.smallTxt1(widget.bills.qty ?? '')),
                   SizedBox(width: 100, child: LotOfThemes.smallHeading1(StringConstants.amount),),
-                  Expanded(child: LotOfThemes.smallTxt1(widget?.bills?.amount??''))
+                  Expanded(child: LotOfThemes.smallTxt1(widget.bills.amount??''))
                 ],
               ),
 

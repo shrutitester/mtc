@@ -14,11 +14,11 @@ import '../model/user-data.dart';
 import '../repository/add-product-manager.dart';
 
 class AddProductController extends GetxController {
-  bool? isLoading = false;
-  bool? isLoadingForCart = false;
-  bool? isLoadingForOrderDetail = false;
-  bool? isLoadingForScannedItem = false;
-  UserData? userModel;
+  // bool? isLoading = false;
+  // bool? isLoadingForCart = false;
+  // bool? isLoadingForOrderDetail = false;
+  // bool? isLoadingForScannedItem = false;
+  // UserData? userModel;
   final preferences = AppPreferences();
   List<Citys>? city = [];
   List<Parties>? parties = [];
@@ -27,6 +27,8 @@ class AddProductController extends GetxController {
   List<Parties>? transport = [];
   List<Parties>? supplier = [];
   List<Parties>? ownFirm = [];
+  List<Parties>? customerFirm = [];
+  List<Parties>? shippingFirm = [];
   List<Orders>? orders = [];
   List<Orders>? order = [];
   List<Orders>? pending = [];
@@ -34,10 +36,13 @@ class AddProductController extends GetxController {
   List<Designations>? designation = [];
   List<SMSTypes>? sms = [];
   List<AgencyVisits> agencyVisit = [];
+  List<AgencyVisits> visit = [];
   List<AddVisit> discountoutpdf = [];
   List<Bills> bills = [];
   List<Party> credit = [];
   AddVisit? addVisit;
+  CreditLimitStatusModel? creditLimitStatus;
+
   // List<CartParties>? cartParties = [];
   // List<Parties>? customers = [];
   // List<Parties>? transports = [];
@@ -49,15 +54,15 @@ class AddProductController extends GetxController {
   // List<Order>? orderList = [];
   // List<Design>? orderDetailList = [];
   // List<Design>? cartList = [];
-  int cart = 0.obs();
-  String? ttQty = '0';
-  String? avlQty = '0';
-  String? ttAmt = '0';
-  String? orderTotalQty = '0';
-  String? orderTotalAmt = '0';
-  int printableAmt = 0;
-  bool? cartPartyStatus = false;
-  String? cartPartyModel;
+  // int cart = 0.obs();
+  // String? ttQty = '0';
+  // String? avlQty = '0';
+  // String? ttAmt = '0';
+  // String? orderTotalQty = '0';
+  // String? orderTotalAmt = '0';
+  // int printableAmt = 0;
+  // bool? cartPartyStatus = false;
+  // String? cartPartyModel;
 
   @override
   void onInit() {
@@ -72,12 +77,13 @@ class AddProductController extends GetxController {
     getOwnFirm();
     getDesignation();
     getSmsType();
-    getAgencyStock();
+    getAgencyStock('', '', '', '');
     getPendingCreditLimit('');
+    getPendingAgencyVisitLimit('');
     getStyleCategory('');
-    getAgencyVisits();
-    getOrderStatus();
-    getPendingOrder();
+    getAgencyVisits('','','');
+    getOrderStatus('','','','');
+    getPendingOrder('', '', '', '');
     super.onInit();
   }
 
@@ -144,8 +150,35 @@ class AddProductController extends GetxController {
     update();
   }
 
+  getCustomerFirm(String accountid) async{
+    PartyData data = await AddProductNetworkManager.getCustomerFirm(accountid);
+    customerFirm!.clear();
+    if(data.parties != null){
+      customerFirm!.addAll(data.parties!);
+    }
+    update();
+  }
+
+  getVisit(String accountid) async{
+    ListAgencyVisits data = await AddProductNetworkManager.getVisit(accountid);
+    visit!.clear();
+    if(data.agencyVisits != null){
+      visit!.addAll(data.agencyVisits!);
+    }
+    update();
+  }
+
+  getShippingFirm(String accountid, String partyid) async{
+    PartyData data = await AddProductNetworkManager.getShippingFirm(accountid, partyid);
+    shippingFirm!.clear();
+    if(data.parties != null){
+      shippingFirm!.addAll(data.parties!);
+    }
+    update();
+  }
+
   getCreditLimit(String accountid) async{
-    CreditLimitStatus data = await AddProductNetworkManager.getCreditLimit(accountid);
+    CreditLimitStatusModel data = await AddProductNetworkManager.getCreditLimit(accountid);
     credit!.clear();
     if(data.parties != null){
       credit!.addAll(data.parties!);
@@ -155,11 +188,16 @@ class AddProductController extends GetxController {
 
   getPendingCreditLimit(String accountid) async{
     AddVisit data = await AddProductNetworkManager.getPendingCreditLimit(accountid);
-    // addVisit!.message;
-    // if(data != null){
-    //   addVisit!.message;
-    // }
-    update();
+    if(data.status == true){
+    }
+    return data;
+  }
+
+  getPendingAgencyVisitLimit(String accountid) async{
+    AddVisit data = await AddProductNetworkManager.getPendingAgencyVisitLimit(accountid);
+    if(data.status == true){
+    }
+    return data;
   }
 
   getOwnFirm() async{
@@ -171,8 +209,8 @@ class AddProductController extends GetxController {
     update();
   }
 
-  getAgencyStock() async {
-    AgencyStock data = await AddProductNetworkManager.getAgencyStock();
+  getAgencyStock(String customer, String supplier, String salesman, String subparty) async {
+    AgencyStock data = await AddProductNetworkManager.getAgencyStock(customer, supplier, salesman, subparty);
     orders!.clear();
     if(data.orders != null){
       orders!.addAll(data.orders!);
@@ -180,11 +218,40 @@ class AddProductController extends GetxController {
     update();
   }
 
-  // getSaveAgencyDiscountoutpdf() async{
-  //   AddVisit data = await AddProductNetworkManager.getSaveAgencyDiscountoutpdf();
-  //   discountoutpdf!.clear();
-  //   if(data.)
-  // }
+  getSaveAgencyDiscountoutpdf(String customer, String supplier, String city) async{
+    AddVisit data = await AddProductNetworkManager.getSaveAgencyDiscountoutpdf(customer, supplier, city);
+    if(data.status == true){
+    }
+    return data;
+  }
+
+  getListSaleBills(String account, String party, String salesman) async{
+    AddVisit data = await AddProductNetworkManager.getListSaleBills(account, party, salesman);
+    if(data.status == true){
+    }
+    return data;
+  }
+
+  getLedger(String account, String city) async{
+    AddVisit data = await AddProductNetworkManager.getLedger(account, city);
+    if(data.status == true){
+    }
+    return data;
+  }
+
+  getOrderEntry(String account, String party, String salesmanid, String supplier, String style, String transport, String own) async{
+    AddVisit data = await AddProductNetworkManager.getOrderEntry(account, party, salesmanid, supplier, style, transport, own );
+    if(data.status == true){
+    }
+    return data;
+  }
+
+  getAddVisit(String salesman, String account, String party, String own) async{
+    AddVisit data = await AddProductNetworkManager.getAddVisit(salesman, account, party, own);
+    if(data.status == true){
+    }
+    return data;
+  }
 
   getStyleCategory(String supplierid) async {
     ListStyleCategory data = await AddProductNetworkManager.getStyleCategory(supplierid);
@@ -195,8 +262,8 @@ class AddProductController extends GetxController {
     update();
   }
 
-  getAgencyVisits() async {
-    ListAgencyVisits data = await AddProductNetworkManager.getAgencyVisits();
+  getAgencyVisits(String customer,String party, String salesman) async {
+    ListAgencyVisits data = await AddProductNetworkManager.getAgencyVisits(customer, party, salesman);
     agencyVisit!.clear();
     if(data.agencyVisits != null){
       agencyVisit!.addAll(data.agencyVisits!);
@@ -204,8 +271,17 @@ class AddProductController extends GetxController {
     update();
   }
 
-  getOrderStatus() async {
-    AgencyStock data = await AddProductNetworkManager.getOrderStatus();
+  // getShowBill(String customer,String party, String salesman) async {
+  //   ListAgencyVisits data = await AddProductNetworkManager.getShowBill(customer, party, salesman);
+  //   agencyVisit!.clear();
+  //   if(data.agencyVisits != null){
+  //     agencyVisit!.addAll(data.agencyVisits!);
+  //   }
+  //   update();
+  // }
+
+  getOrderStatus(String customer, String supplier, String salesman, String subparty) async {
+    AgencyStock data = await AddProductNetworkManager.getOrderStatus(customer, supplier, salesman, subparty);
     order!.clear();
     if(data.orders != null){
       order!.addAll(data.orders!);
@@ -213,8 +289,8 @@ class AddProductController extends GetxController {
     update();
   }
 
-  getPendingOrder() async {
-    AgencyStock data = await AddProductNetworkManager.getPendingOrder();
+  getPendingOrder(String customer, String supplier, String salesman, String subparty) async {
+    AgencyStock data = await AddProductNetworkManager.getPendingOrder(customer, supplier, salesman, subparty);
     pending!.clear();
     if(data.orders != null){
       pending!.addAll(data.orders!);

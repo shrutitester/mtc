@@ -1,4 +1,4 @@
-import 'package:dropdown_search/dropdown_search.dart';
+import 'package:custom_searchable_dropdown/custom_searchable_dropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:myapp/constants/colorConstants.dart';
@@ -6,12 +6,10 @@ import 'package:myapp/constants/stringConstants.dart';
 import 'package:get/get.dart';
 import 'package:myapp/controller/add-product-controller.dart';
 
-import '../../component/custom-drop-down.dart';
 import '../../component/roundButton.dart';
 import '../../model/listParties.dart';
 import '../../utils/lot-of-themes.dart';
 import 'creditLimitListItem.dart';
-
 
 class CreditLimitStatus extends StatefulWidget {
   const CreditLimitStatus({super.key});
@@ -25,6 +23,7 @@ class _CreditLimitStatusState extends State<CreditLimitStatus> {
   TextEditingController dateinput = TextEditingController();
   Parties? selectedAccountValue;
   String? selectedAccountName = 'Select Account', accountid = '';
+  var selected;
 
   @override
   Widget build(BuildContext context) {
@@ -55,18 +54,42 @@ class _CreditLimitStatusState extends State<CreditLimitStatus> {
                 flex: 3,
                 child: Column(
                   children: [
-                    DropDown(
-                        menuItem: listAccountWidgets(controller),
-                        hint: StringConstants.selectAccount,
-                        selectedValue: selectedAccountValue,
-                        onChanged: (value) => {
-                          setState(() => {
-                            selectedAccountValue = value,
-                            selectedAccountName = selectedAccountValue!.accountName,
-                            accountid = selectedAccountValue!.accountId
-                          })
-                        }),
-
+                    CustomSearchableDropDown(
+                      items: controller.account ?? [],
+                      label: StringConstants.selectAccount,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(4),
+                          border: Border.all(color: Colors.grey)),
+                      dropDownMenuItems: controller.account?.map((item) {
+                            return item.accountName;
+                          }).toList() ??
+                          [],
+                      onChanged: (value) {
+                        if (value != null) {
+                          selected = value.toString();
+                        } else {
+                          selected = null;
+                        }
+                        setState(() => {
+                              selectedAccountValue = value,
+                              selectedAccountName = selectedAccountValue!.accountName,
+                              accountid = selectedAccountValue!.accountId!
+                            });
+                        // controller.getPendingCreditLimit(accountid!);
+                      },
+                    ),
+                    // DropDown(
+                    //     menuItem: listAccountWidgets(controller),
+                    //     hint: StringConstants.selectAccount,
+                    //     selectedValue: selectedAccountValue,
+                    //     onChanged: (value) => {
+                    //           setState(() => {
+                    //                 selectedAccountValue = value,
+                    //                 selectedAccountName =
+                    //                     selectedAccountValue!.accountName,
+                    //                 accountid = selectedAccountValue!.accountId
+                    //               })
+                    //         }),
                     const SizedBox(
                       height: 10,
                     ),
@@ -76,7 +99,8 @@ class _CreditLimitStatusState extends State<CreditLimitStatus> {
                             flex: 4,
                             child: Text(
                               StringConstants.dueDate,
-                              style: TextStyle(color: ColorConstants.txtColorDark),
+                              style:
+                                  TextStyle(color: ColorConstants.txtColorDark),
                               textAlign: TextAlign.center,
                             )),
                         Expanded(
@@ -99,7 +123,8 @@ class _CreditLimitStatusState extends State<CreditLimitStatus> {
                                 decoration: const InputDecoration(
                                   border: OutlineInputBorder(),
                                   hintText: '01/04/2023',
-                                  suffixIcon: Icon(Icons.calendar_today_outlined),
+                                  suffixIcon:
+                                      Icon(Icons.calendar_today_outlined),
                                 ),
                                 readOnly: true,
                                 onTap: () async {
@@ -110,12 +135,14 @@ class _CreditLimitStatusState extends State<CreditLimitStatus> {
                                       lastDate: DateTime(2101));
                                   if (pickedDate != null) {
                                     String formattedDate =
-                                    DateFormat('dd-MM-yyyy').format(pickedDate);
+                                        DateFormat('dd-MM-yyyy')
+                                            .format(pickedDate);
                                     setState(() {
                                       dateinput.text = formattedDate;
                                     });
                                   } else {
-                                    const Text(StringConstants.dateIsNotSelected);
+                                    const Text(
+                                        StringConstants.dateIsNotSelected);
                                   }
                                 },
                               ),
@@ -132,8 +159,9 @@ class _CreditLimitStatusState extends State<CreditLimitStatus> {
                             text: StringConstants.view,
                             btnColor: ColorConstants.primaryColor,
                             btnWidth: 300,
-                            press: () async{
+                            press: () async {
                               await controller.getCreditLimit(accountid!);
+                              // _showMyDialog();
                             }))
                   ],
                 ),
@@ -141,11 +169,11 @@ class _CreditLimitStatusState extends State<CreditLimitStatus> {
               Expanded(
                   flex: 7,
                   child: ListView.builder(
-                    shrinkWrap: true,
+                      shrinkWrap: true,
                       scrollDirection: Axis.vertical,
-                      itemCount: controller.credit!.length,
-                      itemBuilder: (BuildContext context, int index){
-                      return CreditLimitListItme(controller.credit![index]);
+                      itemCount: controller.credit.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return CreditLimitListItem(controller.credit[index]);
                       }))
             ],
           ),
@@ -154,12 +182,48 @@ class _CreditLimitStatusState extends State<CreditLimitStatus> {
     });
   }
 
-  listAccountWidgets(AddProductController controller){
-    return controller.account!.map((item) => DropdownMenuItem<Parties>(
-        value: item,
-        child: Text('${item.accountName}',style: LotOfThemes.txt14DarkSmall,
-          overflow: TextOverflow.ellipsis,
-        ))).toList();
+  _showMyDialog() {
+    return showDialog<void>(
+        barrierDismissible: true,
+        context: context,
+        builder: (BuildContext context) {
+          return GetBuilder<AddProductController>(builder: (controller) {
+            return AlertDialog(
+              title: const Text(StringConstants.alert),
+              content: SizedBox(
+                width: MediaQuery.of(context).size.width,
+                height: 80,
+                child: Column(
+                  children: [
+                    // controller.creditLimitStatus!.parties!.isEmpty
+                    //     ?
+                    Text('${controller.creditLimitStatus!.message} '),
+                    // : SizedBox.shrink(),
+                    // const SizedBox(
+                    //   height: 10.0,
+                    // ),
+                    TextButton(
+                        onPressed: () {
+                          Get.back();
+                        },
+                        child: const Text(StringConstants.ok))
+                  ],
+                ),
+              ),
+            );
+          });
+        });
   }
 
+  // listAccountWidgets(AddProductController controller) {
+  //   return controller.account!
+  //       .map((item) => DropdownMenuItem<Parties>(
+  //           value: item,
+  //           child: Text(
+  //             '${item.accountName}',
+  //             style: LotOfThemes.txt14DarkSmall,
+  //             overflow: TextOverflow.ellipsis,
+  //           )))
+  //       .toList();
+  // }
 }

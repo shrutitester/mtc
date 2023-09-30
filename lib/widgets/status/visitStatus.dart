@@ -1,4 +1,4 @@
-import 'package:dropdown_search/dropdown_search.dart';
+import 'package:custom_searchable_dropdown/custom_searchable_dropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:myapp/constants/colorConstants.dart';
@@ -30,7 +30,8 @@ class _VisitStatusState extends State<VisitStatus> {
   String? selectedCustomerName = 'Select Customer', selectedPartyName = 'Select Party', selectedSalesmanName = 'Select Salesman';
   Parties? selectedPartyValue;
   Parties? selectedSalesmanValue;
-
+  String customer = '', party = '', salesman = '';
+var selected;
   @override
   Widget build(BuildContext context) {
     return GetBuilder<AddProductController>(builder: (controller) {
@@ -66,47 +67,122 @@ class _VisitStatusState extends State<VisitStatus> {
                           height: 10,
                         ),
                         Expanded(
-                            child: DropDown(
-                                menuItem: listCustomerWidgets(controller),
-                                hint: StringConstants.selectCustomer,
-                                selectedValue: selectedCustomerValue,
-                                onChanged: (value) => {
-                                  setState(() => {
-                                    selectedCustomerValue = value,
-                                    selectedCustomerName = selectedCustomerValue!.accountName,
-                                  })
-                                }),
+                            child: CustomSearchableDropDown(
+                              items: controller.account ?? [],
+                              label: StringConstants.selectCustomer,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(4),
+                                  border: Border.all(color: Colors.grey)),
+                              dropDownMenuItems: controller.account?.map((item) {
+                                return item.accountName;
+                              }).toList() ??
+                                  [],
+                              onChanged: (value) {
+                                if (value != null) {
+                                  selected = value.toString();
+                                } else {
+                                  selected = null;
+                                }
+                                setState(() => {
+                                  selectedCustomerValue = value,
+                                          selectedCustomerName = selectedCustomerValue!.accountName,
+                                          customer = selectedCustomerValue!.accountId!
+                                });
+                                // controller.getPendingCreditLimit(accountid!);
+                              },
+                            ),
+                            // DropDown(
+                            //     menuItem: listCustomerWidgets(controller),
+                            //     hint: StringConstants.selectCustomer,
+                            //     selectedValue: selectedCustomerValue,
+                            //     onChanged: (value) => {
+                            //       setState(() => {
+                            //         selectedCustomerValue = value,
+                            //         selectedCustomerName = selectedCustomerValue!.accountName,
+                            //         customer = selectedCustomerValue!.accountId!
+                            //       })
+                            //     }),
                         ),
                         const SizedBox(
                           width: 10,
                         ),
                         Expanded(
-                            child: DropDown(
-                                menuItem: listPartyWidgets(controller),
-                                hint: StringConstants.selectParty,
-                                selectedValue: selectedPartyValue,
-                                onChanged: (value) => {
-                                  setState(() => {
-                                    selectedPartyValue = value,
-                                    selectedPartyName = selectedPartyValue!.accountName,
-                                  })
-                                }),
+                            child: CustomSearchableDropDown(
+                              items: controller.party ?? [],
+                              label: StringConstants.selectParty,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(4),
+                                  border: Border.all(color: Colors.grey)),
+                              dropDownMenuItems: controller.party?.map((item) {
+                                return item.accountName;
+                              }).toList() ??
+                                  [],
+                              onChanged: (value) {
+                                if (value != null) {
+                                  selected = value.toString();
+                                } else {
+                                  selected = null;
+                                }
+                                setState(() => {
+                                  selectedPartyValue = value,
+                                          selectedPartyName = selectedPartyValue!.accountName,
+                                          party = selectedPartyValue!.accountId!
+                                });
+                                // controller.getPendingCreditLimit(accountid!);
+                              },
+                            ),
+                            // DropDown(
+                            //     menuItem: listPartyWidgets(controller),
+                            //     hint: StringConstants.selectParty,
+                            //     selectedValue: selectedPartyValue,
+                            //     onChanged: (value) => {
+                            //       setState(() => {
+                            //         selectedPartyValue = value,
+                            //         selectedPartyName = selectedPartyValue!.accountName,
+                            //         party = selectedPartyValue!.accountId!
+                            //       })
+                            //     }),
                         ),
                       ],
                     ),
                     const SizedBox(
                       height: 10,
                     ),
-                    DropDown(
-                        menuItem: listSalesmanWidgets(controller),
-                        hint: StringConstants.selectSalesman,
-                        selectedValue: selectedSalesmanValue,
-                        onChanged: (value) => {
-                          setState(() => {
-                            selectedSalesmanValue = value,
-                            selectedSalesmanName = selectedSalesmanValue!.accountName,
-                          })
-                        }),
+                    // DropDown(
+                    //     menuItem: listSalesmanWidgets(controller),
+                    //     hint: StringConstants.selectSalesman,
+                    //     selectedValue: selectedSalesmanValue,
+                    //     onChanged: (value) => {
+                    //       setState(() => {
+                    //         selectedSalesmanValue = value,
+                    //         selectedSalesmanName = selectedSalesmanValue!.accountName,
+                    //         salesman = selectedPartyValue!.accountId!
+                    //       })
+                    //     }),
+                    CustomSearchableDropDown(
+                      items: controller.parties ?? [],
+                      label: StringConstants.selectSalesman,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(4),
+                          border: Border.all(color: Colors.grey)),
+                      dropDownMenuItems: controller.parties?.map((item) {
+                        return item.accountName;
+                      }).toList() ??
+                          [],
+                      onChanged: (value) {
+                        if (value != null) {
+                          selected = value.toString();
+                        } else {
+                          selected = null;
+                        }
+                        setState(() => {
+                          selectedSalesmanValue = value,
+                          selectedSalesmanName = selectedSalesmanValue!.accountName,
+                          salesman = selectedPartyValue!.accountId!
+                        });
+                        // controller.getPendingCreditLimit(accountid!);
+                      },
+                    ),
                     const SizedBox(
                       height: 10,
                     ),
@@ -210,7 +286,9 @@ class _VisitStatusState extends State<VisitStatus> {
                             text: StringConstants.show,
                             btnColor: ColorConstants.primaryColor,
                             btnWidth: 300,
-                            press: () {}))
+                            press: () async {
+                              await controller.getAgencyVisits(customer, party, salesman);
+                            }))
                   ],
                 ),
               ),
@@ -219,7 +297,7 @@ class _VisitStatusState extends State<VisitStatus> {
                   child: ListView.builder(
                     shrinkWrap: true,
                       scrollDirection: Axis.vertical,
-                      itemCount: controller.agencyVisit!.length,
+                      itemCount: controller.agencyVisit.length,
                       itemBuilder: (BuildContext context, int index){
                       return VisitStatusListItem(controller.agencyVisit![index]);
                       }))
@@ -229,27 +307,27 @@ class _VisitStatusState extends State<VisitStatus> {
       );
     });
   }
-  listCustomerWidgets(AddProductController controller){
-    return controller.account!.map((item) => DropdownMenuItem<Parties>(
-        value: item,
-        child: Text('${item.accountName}',style: LotOfThemes.txt14DarkSmall,
-          overflow: TextOverflow.ellipsis,
-        ))).toList();
-  }
-
-  listPartyWidgets(AddProductController controller){
-    return controller.party!.map((item) => DropdownMenuItem<Parties>(
-        value: item,
-        child: Text('${item.accountName}',style: LotOfThemes.txt14DarkSmall,
-          overflow: TextOverflow.ellipsis,
-        ))).toList();
-  }
-
-  listSalesmanWidgets(AddProductController controller){
-    return controller.parties!.map((item) => DropdownMenuItem<Parties>(
-        value: item,
-        child: Text('${item.accountName}',style: LotOfThemes.txt14DarkSmall,
-          overflow: TextOverflow.ellipsis,
-        ))).toList();
-  }
+  // listCustomerWidgets(AddProductController controller){
+  //   return controller.account!.map((item) => DropdownMenuItem<Parties>(
+  //       value: item,
+  //       child: Text('${item.accountName}',style: LotOfThemes.txt14DarkSmall,
+  //         overflow: TextOverflow.ellipsis,
+  //       ))).toList();
+  // }
+  //
+  // listPartyWidgets(AddProductController controller){
+  //   return controller.party!.map((item) => DropdownMenuItem<Parties>(
+  //       value: item,
+  //       child: Text('${item.accountName}',style: LotOfThemes.txt14DarkSmall,
+  //         overflow: TextOverflow.ellipsis,
+  //       ))).toList();
+  // }
+  //
+  // listSalesmanWidgets(AddProductController controller){
+  //   return controller.parties!.map((item) => DropdownMenuItem<Parties>(
+  //       value: item,
+  //       child: Text('${item.accountName}',style: LotOfThemes.txt14DarkSmall,
+  //         overflow: TextOverflow.ellipsis,
+  //       ))).toList();
+  // }
 }

@@ -24,7 +24,7 @@ class DropDown extends StatelessWidget {
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(4),
           border: Border.all(color: ColorConstants.grey)),
-      padding: const EdgeInsets.symmetric(horizontal: 16),
+      padding: const EdgeInsets.symmetric(horizontal: 16,),
       child: DropdownButtonHideUnderline(
         child: DropdownButtonFormField(
           isExpanded: true,

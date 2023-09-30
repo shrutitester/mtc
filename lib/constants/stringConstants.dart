@@ -3,10 +3,10 @@ class StringConstants{
   static const String password = "Password";
   static const String username = "User Name";
   static const String enterQty = "Qty";
-  static const String invalid_qty = "Enter Qty";
+  static const String invalidqty = "Enter Qty";
   static const String packer = "Packer";
-  static const String enter_packer = "Enter Packer Name";
-  static const String invalid_mobile = " 10 digit Mobile Number is Valid";
+  static const String enterpacker = "Enter Packer Name";
+  static const String invalidmobile = " 10 digit Mobile Number is Valid";
   static const String mobile = "Mobile";
   static const String type = "Type";
   static const String billNo = "Bill No";
@@ -22,6 +22,7 @@ class StringConstants{
   static const String selectSalesman = "Select Salesman";
   static const String selectSubParty = "Select Sub Party";
   static const String selectSupplier = "Select Supplier";
+  static const String selectShippping = "Select Shipping";
   static const String myApp = "MyApp";
   static const String account = "Account";
   static const String selectAccount = "Select Account";
@@ -102,6 +103,7 @@ class StringConstants{
   static const String ledgerBalance = "Ledger Balance";
   static const String dueBalance = "Due Balance";
   static const String avaiableLimit = "Available Limit";
+  static const String avaiableBalance = "Available Balance";
   static const String limitUtilized = "Limit Utilized";
   static const String creditLimtStatus = "Credit Limit Status";
   static const String pendingOrder = "Pending Order";
@@ -166,7 +168,7 @@ class StringConstants{
   static const String updateAgency = "Update Agency";
   static const String search = "Search";
   static const String selectStyleCategory = 'Select Style Category';
-  // static const String person = "PERSON";
+  static const String ok = "OK";
   // static const String person = "PERSON";
   // static const String person = "PERSON";
   // static const String person = "PERSON";
@@ -188,16 +190,22 @@ class StringConstants{
   static const String apiError = "Oops! Something went wrong.";
   static const String listCities = "party/listcities";
   static const String showAgencyStock = "order/showAgencyStock";
-  static const String liststylecategories = "party/liststylecategories";
+  static const String listStyleCategories = "party/liststylecategories";
   static const String listagencyvisits = "party/listagencyvisits";
   static const String showbookedorders = "ORDER/SHOWBOOKEDORDERS";
   static const String showagencypendingorders = "ORDER/SHOWAGENCYPENDINGORDERS";
   static const String listparties = "party/listparties";
   static const String listDesignations = "party/listDesignations";
   static const String listSMSTypes = "party/listSMSTypes";
-  static const String addvisit = "ORDER/AddVisit";
+  static const String addvisits = "ORDER/AddVisit";
   static const String showsalebills = "Order/ShowSaleBills";
   static const String creditlimitstatus = "party/creditlimitstatus";
   static const String showpendingcreditlimit = "party/showpendingcreditlimit";
+  static const String showpendingagencyvisitlimit = "party/showpendingagencyvisitlimit";
+  static const String listsalebills = "party/ListSaleBills";
+  static const String columnarLedger = "party/columnarLedger";
+  static const String bookOrder = "ORDER/BOOKORDER";
+  static const String listFirmNameOfParties = "party/listFirmNameOfParties";
+  // static const String listagencyvisits = "party/listagencyvisits";
 
 }

@@ -33,9 +33,9 @@ class _VisitStatusListItemState extends State<VisitStatusListItem> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   SizedBox(width: 100, child: LotOfThemes.smallHeading1(StringConstants.visitDate),),
-                  Expanded(child: LotOfThemes.smallTxt1(widget?.agencyVisits?.vchDate?.replaceRange(10, 21, ' ')?? '')),
+                  Expanded(child: LotOfThemes.smallTxt1(widget.agencyVisits.vchDate?.replaceRange(10, 21, ' ')?? '')),
                   SizedBox(width: 100, child: LotOfThemes.smallHeading1(StringConstants.closeDate),),
-                  Expanded(child: LotOfThemes.smallTxt1(widget?.agencyVisits?.dueDate?.replaceRange(10, 21, '')?? '')),
+                  Expanded(child: LotOfThemes.smallTxt1(widget.agencyVisits.dueDate?.replaceRange(10, 21, '')?? '')),
                 ],
               ),
               marginBottom(),
@@ -46,7 +46,7 @@ class _VisitStatusListItemState extends State<VisitStatusListItem> {
                       width: 100,
                       child: LotOfThemes.smallHeading1(StringConstants.accountName)),
                   Expanded(
-                      child: LotOfThemes.smallTxt1(widget?.agencyVisits?.accountName?? '')),
+                      child: LotOfThemes.smallTxt1(widget.agencyVisits.accountName?? '')),
                 ],
               ),
               marginBottom(),
@@ -57,7 +57,7 @@ class _VisitStatusListItemState extends State<VisitStatusListItem> {
                       width: 100,
                       child: LotOfThemes.smallHeading1(StringConstants.partyName)),
                   Expanded(
-                      child: LotOfThemes.smallTxt1(widget?.agencyVisits?.partyName?? '')),
+                      child: LotOfThemes.smallTxt1(widget.agencyVisits.partyName?? '')),
                 ],
               ),
               marginBottom(),
@@ -68,7 +68,7 @@ class _VisitStatusListItemState extends State<VisitStatusListItem> {
                       width: 100,
                       child: LotOfThemes.smallHeading1(StringConstants.salesman)),
                   Expanded(
-                      child: LotOfThemes.smallTxt1(widget?.agencyVisits?.salesmanName?? '')),
+                      child: LotOfThemes.smallTxt1(widget.agencyVisits.salesmanName?? '')),
                 ],
               ),
               marginBottom(),
@@ -79,7 +79,7 @@ class _VisitStatusListItemState extends State<VisitStatusListItem> {
                       width: 100,
                       child: LotOfThemes.smallHeading1(StringConstants.graceAmount)),
                   Expanded(
-                      child: LotOfThemes.smallTxt1(widget?.agencyVisits?.amount?? '')),
+                      child: LotOfThemes.smallTxt1(widget.agencyVisits.amount?? '')),
                 ],
               ),
               marginBottom(),
@@ -90,7 +90,7 @@ class _VisitStatusListItemState extends State<VisitStatusListItem> {
                       width: 100,
                       child: LotOfThemes.smallHeading1(StringConstants.creditLimit)),
                   Expanded(
-                      child: LotOfThemes.smallTxt1(widget?.agencyVisits?.creditLimit?? '')),
+                      child: LotOfThemes.smallTxt1(widget.agencyVisits.creditLimit?? '')),
                 ],
               ),
               marginBottom(),
@@ -101,7 +101,7 @@ class _VisitStatusListItemState extends State<VisitStatusListItem> {
                       width: 100,
                       child: LotOfThemes.smallHeading1(StringConstants.visitName)),
                   Expanded(
-                      child: LotOfThemes.smallTxt1(widget?.agencyVisits?.agencyVisitName?? '')),
+                      child: LotOfThemes.smallTxt1(widget.agencyVisits.agencyVisitName?? '')),
                 ],
               ),
               marginBottom(),
@@ -112,7 +112,7 @@ class _VisitStatusListItemState extends State<VisitStatusListItem> {
                       width: 100,
                       child: LotOfThemes.smallHeading1(StringConstants.dueDays)),
                   Expanded(
-                      child: LotOfThemes.smallTxt1(widget?.agencyVisits?.dueDays?? '')),
+                      child: LotOfThemes.smallTxt1(widget.agencyVisits.dueDays?? '')),
                 ],
               ),
               marginBottom(),
@@ -123,7 +123,7 @@ class _VisitStatusListItemState extends State<VisitStatusListItem> {
                       width: 100,
                       child: LotOfThemes.smallHeading1(StringConstants.billingOption)),
                   Expanded(
-                      child: LotOfThemes.smallTxt1(widget?.agencyVisits?.agencyBillingTypeNameList?? '')),
+                      child: LotOfThemes.smallTxt1(widget.agencyVisits.agencyBillingTypeNameList?? '')),
                 ],
               ),
             ],

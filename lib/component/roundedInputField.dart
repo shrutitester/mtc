@@ -124,13 +124,13 @@ class RoundedInputField extends StatelessWidget {
       return input.isNotEmpty ? null : StringConstants.password;
     }
     if (type == StringConstants.enterQty) {
-      return input.isNotEmpty ? null : StringConstants.invalid_qty;
+      return input.isNotEmpty ? null : StringConstants.invalidqty;
     }
     if (type == StringConstants.packer) {
-      return input.isNotEmpty ? null : StringConstants.enter_packer;
+      return input.isNotEmpty ? null : StringConstants.enterpacker;
     }
     if (type == StringConstants.mobile) {
-      return input.length == 10 ? null : StringConstants.invalid_mobile;
+      return input.length == 10 ? null : StringConstants.invalidmobile;
     }
   }
 }

@@ -1,12 +1,12 @@
-class CreditLimitStatus {
+class CreditLimitStatusModel {
   int? records;
   bool? status;
   String? message;
   List<Party>? parties;
 
-  CreditLimitStatus({this.records, this.status, this.message, this.parties});
+  CreditLimitStatusModel({this.records, this.status, this.message, this.parties});
 
-  CreditLimitStatus.fromJson(Map<String, dynamic> json) {
+  CreditLimitStatusModel.fromJson(Map<String, dynamic> json) {
     records = json['Records'];
     status = json['Status'];
     message = json['Message'];

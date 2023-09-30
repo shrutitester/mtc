@@ -29,9 +29,9 @@ class _OrderStatusListItemState extends State<OrderStatusListItem> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   SizedBox(width: 100, child: LotOfThemes.smallHeading1(StringConstants.vchNo),),
-                  Expanded(child: LotOfThemes.smallTxt1(widget?.orders?.vchNo ?? '')),
+                  Expanded(child: LotOfThemes.smallTxt1(widget.orders.vchNo ?? '')),
                   SizedBox(width: 100, child: LotOfThemes.smallHeading1(StringConstants.dispatchDate),),
-                  Expanded(child: LotOfThemes.smallTxt1(widget?.orders?.dispatchDays ?? '')),
+                  Expanded(child: LotOfThemes.smallTxt1(widget.orders.dispatchDays ?? '')),
                 ],
               ),
               marginBottom(),
@@ -39,9 +39,9 @@ class _OrderStatusListItemState extends State<OrderStatusListItem> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   SizedBox(width: 100, child: LotOfThemes.smallHeading1(StringConstants.orderDate),),
-                  Expanded(child: LotOfThemes.smallTxt1(widget?.orders?.orderFormNo ?? '')),
+                  Expanded(child: LotOfThemes.smallTxt1(widget.orders.orderFormNo ?? '')),
                   SizedBox(width: 100, child: LotOfThemes.smallHeading1(StringConstants.orderNo),),
-                  Expanded(child: LotOfThemes.smallTxt1(widget?.orders?.orderNo?? '')),
+                  Expanded(child: LotOfThemes.smallTxt1(widget.orders.orderNo?? '')),
                 ],
               ),
             ],

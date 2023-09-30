@@ -48,9 +48,9 @@ class _SplashScreenState extends State<SplashScreen> {
       String isLogin =
           await preferences.getStringPreference(StringConstants.isLogin);
      if(isLogin != 'isLogin'){
-      Get.off(() =>  HomeScreen());
+      Get.off(() =>  const HomeScreen());
      } else {
-       Get.off(() => LoginScreen());
+       Get.off(() => const LoginScreen());
      }
     });
   }

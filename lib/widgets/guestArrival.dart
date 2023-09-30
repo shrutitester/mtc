@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:custom_searchable_dropdown/custom_searchable_dropdown.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -35,12 +36,12 @@ class _GuestArrivalState extends State<GuestArrival> {
   TextEditingController dateinput2 = TextEditingController();
   TextEditingController timeInput = TextEditingController();
   TextEditingController timeInput2 = TextEditingController();
-  TextEditingController _noOfGuestController = TextEditingController();
-  TextEditingController _remarkController = TextEditingController();
-  TextEditingController _mobileController = TextEditingController();
-  TextEditingController _daysOfStayController = TextEditingController();
-  TextEditingController _nameController = TextEditingController();
-  TextEditingController _idNumberController = TextEditingController();
+  final TextEditingController _noOfGuestController = TextEditingController();
+  final TextEditingController _remarkController = TextEditingController();
+  final TextEditingController _mobileController = TextEditingController();
+  final TextEditingController _daysOfStayController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _idNumberController = TextEditingController();
   String? guest = '',
       remark = '',
       mobile = '',
@@ -51,6 +52,7 @@ class _GuestArrivalState extends State<GuestArrival> {
   Parties? selectedPartyValue;
   String? selectedPartyName = 'Select Party', selectedAccountName = 'Select Account';
   Parties? selectedAccountValue;
+var selected;
 
   Future pickImage() async {
     try {
@@ -180,16 +182,42 @@ class _GuestArrivalState extends State<GuestArrival> {
                   StringConstants.account,
                   style: LotOfThemes.light14,
                 ),
-                DropDown(
-                    menuItem: listAccountWidgets(controller),
-                    hint: StringConstants.selectAccount,
-                    selectedValue: selectedAccountValue,
-                    onChanged: (value) => {
-                      setState(() => {
-                        selectedAccountValue = value,
-                        selectedAccountName = selectedAccountValue!.accountName,
-                      })
-                    }),
+                CustomSearchableDropDown(
+                  items: controller.account ?? [],
+                  label: StringConstants.selectAccount,
+                  // multiSelectTag: 'Names',
+                  // multiSelectValuesAsWidget: true,
+                  // multiSelect: true,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(4),
+                      border: Border.all(color: Colors.grey)),
+                  dropDownMenuItems: controller.account?.map((item) {
+                    return item.accountName;
+                  }).toList() ??
+                      [],
+                  onChanged: (value) {
+                    if (value != null) {
+                      selected = value.toString();
+                    } else {
+                      selected = null;
+                    }
+                    setState(() => {
+                      selectedAccountValue = value,
+                      selectedAccountName = selectedAccountValue!.accountName,
+                    });
+                    // controller.getPendingCreditLimit(accountid!);
+                  },
+                ),
+                // DropDown(
+                //     menuItem: listAccountWidgets(controller),
+                //     hint: StringConstants.selectAccount,
+                //     selectedValue: selectedAccountValue,
+                //     onChanged: (value) => {
+                //       setState(() => {
+                //         selectedAccountValue = value,
+                //         selectedAccountName = selectedAccountValue!.accountName,
+                //       })
+                //     }),
                 // Container(
                 //     height: 45,
                 //     width: MediaQuery
@@ -227,18 +255,44 @@ class _GuestArrivalState extends State<GuestArrival> {
                   StringConstants.party,
                   style: LotOfThemes.light14,
                 ),
-                DropDown(
-                    menuItem: listPartyWidgets(controller),
-                    hint: StringConstants.selectParty,
-                    selectedValue: selectedPartyValue,
-                    onChanged: (value) =>
-                    {
-                      setState(() =>
-                      {
-                        selectedPartyValue = value,
-                        selectedPartyName = selectedPartyValue!.accountName,
-                      })
-                    }),
+                // DropDown(
+                //     menuItem: listPartyWidgets(controller),
+                //     hint: StringConstants.selectParty,
+                //     selectedValue: selectedPartyValue,
+                //     onChanged: (value) =>
+                //     {
+                //       setState(() =>
+                //       {
+                //         selectedPartyValue = value,
+                //         selectedPartyName = selectedPartyValue!.accountName,
+                //       })
+                //     }),
+                CustomSearchableDropDown(
+                  items: controller.party ?? [],
+                  label: StringConstants.selectParty,
+                  // multiSelectTag: 'Names',
+                  // multiSelectValuesAsWidget: true,
+                  // multiSelect: true,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(4),
+                      border: Border.all(color: Colors.grey)),
+                  dropDownMenuItems: controller.party?.map((item) {
+                    return item.accountName;
+                  }).toList() ??
+                      [],
+                  onChanged: (value) {
+                    if (value != null) {
+                      selected = value.toString();
+                    } else {
+                      selected = null;
+                    }
+                    setState(() => {
+                      selectedPartyValue = value,
+                      selectedPartyName = selectedPartyValue!.accountName,
+                    });
+                    // controller.getPendingCreditLimit(accountid!);
+                  },
+                ),
                 // Container(
                 //     height: 45,
                 //     width: MediaQuery.of(context).size.width,

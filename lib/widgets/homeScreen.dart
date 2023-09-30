@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import 'package:myapp/constants/colorConstants.dart';
@@ -12,7 +13,6 @@ import 'package:myapp/widgets/reports.dart';
 import 'package:myapp/widgets/status/visitStatus.dart';
 
 import '../constants/stringConstants.dart';
-import '../model/listParties.dart';
 
 class HomeScreen extends StatefulWidget {
 
@@ -55,8 +55,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       Get.to(const OrderStatus());
                     },
                     child: SizedBox(
-                      width: 156,
-                      height: 140,
+                      width: 156.w,
+                      height: 140.h,
                       child: Card(
                         elevation: 2,
                         shape: RoundedRectangleBorder(
@@ -66,8 +66,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Image.asset('assets/images/guestArrival.png'),
-                            const SizedBox(
-                              height: 10,
+                             SizedBox(
+                              height: 10.h,
                             ),
                             const Text(
                               StringConstants.orderStatus,
@@ -81,11 +81,11 @@ class _HomeScreenState extends State<HomeScreen> {
                   Expanded(
                       child: InkWell(
                     onTap: () {
-                      Get.to(NewOrder());
+                      Get.to(const NewOrder());
                     },
                     child: SizedBox(
-                      width: 156,
-                      height: 140,
+                      width: 156.w,
+                      height: 140.h,
                       child: Card(
                         elevation: 2,
                         shape: RoundedRectangleBorder(
@@ -95,8 +95,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Image.asset('assets/images/guestArrival.png'),
-                            const SizedBox(
-                              height: 10,
+                             SizedBox(
+                              height: 10.h,
                             ),
                             const Text(
                               StringConstants.newOrder,
@@ -117,8 +117,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       Get.to(const AddVisit());
                     },
                     child: SizedBox(
-                      width: 156,
-                      height: 140,
+                      width: 156.w,
+                      height: 140.h,
                       child: Card(
                         elevation: 5,
                         shape: RoundedRectangleBorder(
@@ -128,8 +128,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Image.asset('assets/images/guestArrival.png'),
-                            const SizedBox(
-                              height: 10,
+                             SizedBox(
+                              height: 10.h,
                             ),
                             const Text(
                               StringConstants.addVisit,
@@ -146,8 +146,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       Get.to(const VisitStatus());
                     },
                     child: SizedBox(
-                      width: 156,
-                      height: 140,
+                      width: 156.w,
+                      height: 140.h,
                       child: Card(
                         elevation: 5,
                         shape: RoundedRectangleBorder(
@@ -157,8 +157,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Image.asset('assets/images/guestArrival.png'),
-                            const SizedBox(
-                              height: 10,
+                             SizedBox(
+                              height: 10.h,
                             ),
                             const Text(
                               StringConstants.visitStatus,
@@ -179,8 +179,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       Get.to(const Reports());
                     },
                     child: SizedBox(
-                      width: 156,
-                      height: 140,
+                      width: 156.w,
+                      height: 140.h,
                       child: Card(
                         elevation: 5,
                         shape: RoundedRectangleBorder(
@@ -190,8 +190,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Image.asset('assets/images/guestArrival.png'),
-                            const SizedBox(
-                              height: 10,
+                             SizedBox(
+                              height: 10.h,
                             ),
                             const Text(
                               StringConstants.reports,
@@ -208,8 +208,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       Get.to(const AddContactPerson());
                     },
                     child: SizedBox(
-                      width: 156,
-                      height: 140,
+                      width: 156.w,
+                      height: 140.h,
                       child: Card(
                         elevation: 5,
                         shape: RoundedRectangleBorder(
@@ -219,8 +219,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Image.asset('assets/images/guestArrival.png'),
-                            const SizedBox(
-                              height: 10,
+                             SizedBox(
+                              height: 10.h,
                             ),
                             const Text(
                               StringConstants.addContactPerson,
@@ -239,8 +239,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     Get.to(const GuestArrival());
                   },
                   child: SizedBox(
-                    height: 142,
-                    width: 172,
+                    height: 142.h,
+                    width: 172.w,
                     child: Card(
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(2)),
@@ -250,8 +250,8 @@ class _HomeScreenState extends State<HomeScreen> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Image.asset('assets/images/guestArrival.png'),
-                          const SizedBox(
-                            height: 10,
+                           SizedBox(
+                            height: 10.h,
                           ),
                           const Text(
                             StringConstants.guestArrival,

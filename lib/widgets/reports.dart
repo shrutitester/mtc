@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/constants/colorConstants.dart';
 import 'package:myapp/constants/stringConstants.dart';
+import 'package:myapp/model/creditLimitStatus.dart';
 import 'package:myapp/widgets/stock/agencyStock.dart';
-import 'package:myapp/widgets/discountPrinting.dart';
+import 'package:myapp/widgets/discountPrint/discountPrinting.dart';
 import 'package:myapp/widgets/pendingAgencyVisitLimit.dart';
 import 'package:myapp/widgets/pendingCreditLimit.dart';
 import 'package:myapp/widgets/pendingOrder/pendingOrder.dart';
@@ -21,6 +22,7 @@ class Reports extends StatefulWidget {
 }
 
 class _ReportsState extends State<Reports> {
+  CreditLimitStatusModel? creditLimitStatusModel;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -81,7 +83,7 @@ class _ReportsState extends State<Reports> {
                   Expanded(
                       child: InkWell(
                     onTap: () {
-                      Get.to(const CreditLimitStatus());
+                      Get.to( const CreditLimitStatus());
                     },
                     child: SizedBox(
                       width: 156,

@@ -9,7 +9,6 @@ import 'package:myapp/utils/lot-of-themes.dart';
 
 import '../../component/roundButton.dart';
 import '../../component/roundedInputField.dart';
-import '../../controller/add-product-controller.dart';
 import '../../utils/preferences.dart';
 
 
@@ -32,11 +31,11 @@ class _UpdateAgencyState extends State<UpdateAgency> {
   Billing? _billing;
   bool _type = false;
   bool _type2 = false;
-  TextEditingController _visitnameController = TextEditingController();
-  TextEditingController _creditlimitController = TextEditingController();
-  TextEditingController _creditlimitinWordsController = TextEditingController();
-  TextEditingController _graceamountController = TextEditingController();
-  TextEditingController _closedaysController = TextEditingController();
+  final TextEditingController _visitnameController = TextEditingController();
+  final TextEditingController _creditlimitController = TextEditingController();
+  final TextEditingController _creditlimitinWordsController = TextEditingController();
+  final TextEditingController _graceamountController = TextEditingController();
+  final TextEditingController _closedaysController = TextEditingController();
   String? visit = '', credit = '', creditlimit = '', grace = '', close = '';
   final preference = AppPreferences();
 

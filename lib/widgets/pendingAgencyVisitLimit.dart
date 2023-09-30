@@ -1,10 +1,9 @@
-import 'package:dropdown_search/dropdown_search.dart';
+import 'package:custom_searchable_dropdown/custom_searchable_dropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:myapp/constants/stringConstants.dart';
 import 'package:get/get.dart';
 import 'package:myapp/controller/add-product-controller.dart';
 
-import '../component/custom-drop-down.dart';
 import '../constants/colorConstants.dart';
 import '../model/listParties.dart';
 import '../utils/lot-of-themes.dart';
@@ -20,7 +19,9 @@ class PendingAgencyVisitLimit extends StatefulWidget {
 class _PendingAgencyVisitLimitState extends State<PendingAgencyVisitLimit> {
   Parties? selectedAccountValue;
   String? selectedAccountName = 'Select Account';
-
+  String accountId = '';
+  var selected;
+  List? selectedList;
   @override
   Widget build(BuildContext context) {
     return GetBuilder(builder: (AddProductController controller) {
@@ -50,16 +51,38 @@ class _PendingAgencyVisitLimitState extends State<PendingAgencyVisitLimit> {
                 StringConstants.selectCustomer,
                 style: TextStyle(fontSize: 12),
               ),
-              DropDown(
-                  menuItem: listAccountWidgets(controller),
-                  hint: StringConstants.selectAccount,
-                  selectedValue: selectedAccountValue,
-                  onChanged: (value) => {
-                    setState(() => {
-                      selectedAccountValue = value,
-                      selectedAccountName = selectedAccountValue!.accountName,
-                    })
-                  }),
+              // DropDown(
+              //     menuItem: listAccountWidgets(controller),
+              //     hint: StringConstants.selectAccount,
+              //     selectedValue: selectedAccountValue,
+              //     onChanged: (value) => {
+              //       setState(() async {
+              //         selectedAccountValue = value;
+              //         selectedAccountName = selectedAccountValue!.accountName;
+              //         accountId = selectedAccountValue!.accountId!;
+              //       })
+              //     }),
+              CustomSearchableDropDown(
+                items: controller.account ?? [],
+                label: StringConstants.selectAccount,
+                // multiSelectTag: 'Names',
+                // multiSelectValuesAsWidget: true,
+                // multiSelect: true,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(4),
+                    border: Border.all(
+                        color: Colors.grey)),
+                dropDownMenuItems: controller.account?.map((item) {
+                  return item.accountName;}).toList() ?? [],
+                onChanged: (value){
+                  if(value!=null) {selected = value.toString();} else{selected=null;}
+                  setState(() => {
+                    selectedAccountValue = value,
+                    selectedAccountName = selectedAccountValue!.accountName,
+                    accountId = selectedAccountValue!.accountId!});
+                  controller.getPendingCreditLimit(accountId);
+
+                },),
               // Container(
               //     height: 45,
               //     width: MediaQuery
@@ -121,11 +144,11 @@ class _PendingAgencyVisitLimitState extends State<PendingAgencyVisitLimit> {
       );
     });
   }
-  listAccountWidgets(AddProductController controller){
-    return controller.account!.map((item) => DropdownMenuItem<Parties>(
-        value: item,
-        child: Text('${item.accountName}',style: LotOfThemes.txt14DarkSmall,
-          overflow: TextOverflow.ellipsis,
-        ))).toList();
-  }
+  // listAccountWidgets(AddProductController controller){
+  //   return controller.account!.map((item) => DropdownMenuItem<Parties>(
+  //       value: item,
+  //       child: Text('${item.accountName}',style: LotOfThemes.txt14DarkSmall,
+  //         overflow: TextOverflow.ellipsis,
+  //       ))).toList();
+  // }
 }

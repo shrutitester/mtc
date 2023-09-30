@@ -1,4 +1,4 @@
-import 'package:dropdown_search/dropdown_search.dart';
+import 'package:custom_searchable_dropdown/custom_searchable_dropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:myapp/constants/colorConstants.dart';
@@ -6,10 +6,8 @@ import 'package:myapp/constants/stringConstants.dart';
 import 'package:get/get.dart';
 import 'package:myapp/controller/add-product-controller.dart';
 
-import '../component/custom-drop-down.dart';
 import '../component/roundButton.dart';
 import '../model/listParties.dart';
-import '../utils/lot-of-themes.dart';
 
 class SaleReport extends StatefulWidget {
   const SaleReport({super.key});
@@ -25,6 +23,9 @@ class _SaleReportState extends State<SaleReport> {
   String? selectedAccountName = 'Select Account', selectedPartyName = 'Select Party', selectedSalesmanName = 'Select Salesman';
   Parties? selectedPartyValue;
   Parties? selectedSalesmanValue;
+  String account = '', party = '', salesman = '';
+  var selected;
+  List? selectedList;
 
   @override
   Widget build(BuildContext context) {
@@ -58,31 +59,45 @@ class _SaleReportState extends State<SaleReport> {
                       height: 10,
                     ),
                     Expanded(
-                        child: DropDown(
-                            menuItem: listAccountWidgets(controller),
-                            hint: StringConstants.selectAccount,
-                            selectedValue: selectedAccountValue,
-                            onChanged: (value) => {
-                              setState(() => {
-                                selectedAccountValue = value,
-                                selectedAccountName = selectedAccountValue!.accountName,
-                              })
-                            }),
+                        child:CustomSearchableDropDown(
+                          items: controller.account ?? [],
+                          label: StringConstants.selectAccount,
+                          // multiSelectTag: 'Names',
+                          // multiSelectValuesAsWidget: true,
+                          // multiSelect: true,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(4),
+                              border: Border.all(
+                                  color: Colors.grey)),
+                          dropDownMenuItems: controller.account?.map((item) {
+                            return item.accountName;}).toList() ?? [],
+                          onChanged: (value){
+                            if(value!=null) {selected = value.toString();} else{selected=null;}
+                            setState(() => {
+                              selectedAccountValue = value,
+                              selectedAccountName = selectedAccountValue!.accountName,
+                              account = selectedAccountValue!.accountId!});},),
                     ),
                     const SizedBox(
                       width: 10,
                     ),
                     Expanded(
-                        child: DropDown(
-                            menuItem: listPartyWidgets(controller),
-                            hint: StringConstants.selectParty,
-                            selectedValue: selectedPartyValue,
-                            onChanged: (value) => {
-                              setState(() => {
-                                selectedPartyValue = value,
-                                selectedPartyName = selectedPartyValue!.accountName,
-                              })
-                            }),
+                        child: CustomSearchableDropDown(
+                          items: controller.party ?? [],
+                          label: StringConstants.selectAccount,
+
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(4),
+                              border: Border.all(
+                                  color: Colors.grey)),
+                          dropDownMenuItems: controller.party?.map((item) {
+                            return item.accountName;}).toList() ?? [],
+                          onChanged: (value){
+                            if(value!=null) {selected = value.toString();} else{selected=null;}
+                            setState(() => {
+                              selectedAccountValue = value,
+                              selectedAccountName = selectedAccountValue!.accountName,
+                              party = selectedAccountValue!.accountId!});},),
                     ),
                   ],
                 ),
@@ -94,59 +109,73 @@ class _SaleReportState extends State<SaleReport> {
                     const SizedBox(
                       height: 10,
                     ),
+                    // Expanded(
+                    //     child:  DropDown(
+                    //         menuItem: listSalesmanWidgets(controller),
+                    //         hint: StringConstants.selectSalesman,
+                    //         selectedValue: selectedSalesmanValue,
+                    //         onChanged: (value) => {
+                    //           setState(() => {
+                    //             selectedSalesmanValue = value,
+                    //             selectedSalesmanName = selectedSalesmanValue!.accountName,
+                    //             salesman = selectedSalesmanValue!.accountId!
+                    //           })
+                    //         }),),
                     Expanded(
-                        child:  DropDown(
-                            menuItem: listSalesmanWidgets(controller),
-                            hint: StringConstants.selectSalesman,
-                            selectedValue: selectedSalesmanValue,
-                            onChanged: (value) => {
-                              setState(() => {
-                                selectedSalesmanValue = value,
-                                selectedSalesmanName = selectedSalesmanValue!.accountName,
-                              })
-                            }),),
+                        child:  CustomSearchableDropDown(
+                          items: controller.parties ?? [],
+                          label: StringConstants.selectAccount,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(4),
+                              border: Border.all(
+                                  color: Colors.grey)),
+                          dropDownMenuItems: controller.parties?.map((item) {
+                            return item.accountName;}).toList() ?? [],
+                          onChanged: (value){
+                            if(value!=null) {selected = value.toString();} else{selected=null;}
+                            setState(() => {
+                              selectedAccountValue = value,
+                              selectedAccountName = selectedAccountValue!.accountName,
+                              salesman = selectedAccountValue!.accountId!});},)),
                     const SizedBox(
                       width: 10,
                     ),
                     Expanded(
-                        child: SizedBox(
-                          height: 50,
-                          child: TextFormField(
-                            onChanged: (val) {
-                              setState(() {
-                                dateValue = val;
-                              });
-                            },
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Please select date';
-                              }
-                              return null;
-                            },
-                            controller: dateinput,
-                            decoration: const InputDecoration(
-                              border: OutlineInputBorder(),
-                              hintText: '01/04/2023',
-                              suffixIcon: Icon(Icons.calendar_today_outlined),
-                            ),
-                            readOnly: true,
-                            onTap: () async {
-                              DateTime? pickedDate = await showDatePicker(
-                                  context: context,
-                                  initialDate: DateTime.now(),
-                                  firstDate: DateTime.now(),
-                                  lastDate: DateTime(2101));
-                              if (pickedDate != null) {
-                                String formattedDate =
-                                DateFormat('dd-MM-yyyy').format(pickedDate);
-                                setState(() {
-                                  dateinput.text = formattedDate;
-                                });
-                              } else {
-                                const Text(StringConstants.dateIsNotSelected);
-                              }
-                            },
+                        child: TextFormField(
+                          onChanged: (val) {
+                            setState(() {
+                              dateValue = val;
+                            });
+                          },
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please select date';
+                            }
+                            return null;
+                          },
+                          controller: dateinput,
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(),
+                            hintText: '01/04/2023',
+                            suffixIcon: Icon(Icons.calendar_today_outlined),
                           ),
+                          readOnly: true,
+                          onTap: () async {
+                            DateTime? pickedDate = await showDatePicker(
+                                context: context,
+                                initialDate: DateTime.now(),
+                                firstDate: DateTime.now(),
+                                lastDate: DateTime(2101));
+                            if (pickedDate != null) {
+                              String formattedDate =
+                              DateFormat('dd-MM-yyyy').format(pickedDate);
+                              setState(() {
+                                dateinput.text = formattedDate;
+                              });
+                            } else {
+                              const Text(StringConstants.dateIsNotSelected);
+                            }
+                          },
                         )),
                     const SizedBox(
                       height: 10,
@@ -163,35 +192,14 @@ class _SaleReportState extends State<SaleReport> {
                         text: StringConstants.showBil,
                         btnColor: ColorConstants.primaryColor,
                         btnWidth: 300,
-                        press: () {}))
+                        press: () async {
+                          await controller.getListSaleBills(account, party, salesman);
+                        }))
               ],
             ),
           ),
         ),
       );
     });
-  }
-  listAccountWidgets(AddProductController controller){
-    return controller.account!.map((item) => DropdownMenuItem<Parties>(
-        value: item,
-        child: Text('${item.accountName}',style: LotOfThemes.txt14DarkSmall,
-          overflow: TextOverflow.ellipsis,
-        ))).toList();
-  }
-
-  listPartyWidgets(AddProductController controller){
-    return controller.party!.map((item) => DropdownMenuItem<Parties>(
-        value: item,
-        child: Text('${item.accountName}',style: LotOfThemes.txt14DarkSmall,
-          overflow: TextOverflow.ellipsis,
-        ))).toList();
-  }
-
-  listSalesmanWidgets(AddProductController controller){
-    return controller.parties!.map((item) => DropdownMenuItem<Parties>(
-        value: item,
-        child: Text('${item.accountName}',style: LotOfThemes.txt14DarkSmall,
-          overflow: TextOverflow.ellipsis,
-        ))).toList();
   }
 }

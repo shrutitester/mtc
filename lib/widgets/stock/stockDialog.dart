@@ -50,9 +50,9 @@ class _StockDialogState extends State<StockDialog> {
                               ),
                               borderRadius:
                               const BorderRadius.all(Radius.circular(6))),
-                          child: Row(
+                          child: const Row(
                             children: [
-                              const Icon(Icons.download_rounded,
+                              Icon(Icons.download_rounded,
                                   size: 16, color: Colors.white),
                               // Text(
                               //   " Download Pdf",
@@ -80,11 +80,11 @@ class _StockDialogState extends State<StockDialog> {
                         SizedBox(
                             width: 100,
                             child: LotOfThemes.smallHeading1(StringConstants.vchNo)),
-                        Expanded(child: LotOfThemes.smallTxt1(widget?.orders?.vchNo ??'')),
+                        Expanded(child: LotOfThemes.smallTxt1(widget.orders.vchNo ??'')),
                         SizedBox(
                             width: 70, child: LotOfThemes.smallHeading1(StringConstants.dispatchDate)),
                         Expanded(
-                            child: LotOfThemes.smallTxt1(widget?.orders?.vchDate?.replaceRange(9, 20, ' ')??'')),
+                            child: LotOfThemes.smallTxt1(widget.orders.vchDate?.replaceRange(9, 20, ' ')??'')),
                       ],
                     ),
                     marginBottom(),
@@ -98,7 +98,7 @@ class _StockDialogState extends State<StockDialog> {
                         SizedBox(
                             width: 70,
                             child: LotOfThemes.smallHeading1(StringConstants.orderNo)),
-                        Expanded(child: LotOfThemes.smallTxt1(widget?.orders?.orderNo??'')),
+                        Expanded(child: LotOfThemes.smallTxt1(widget.orders.orderNo??'')),
                       ],
                     ),
                     marginBottom(),
@@ -109,7 +109,7 @@ class _StockDialogState extends State<StockDialog> {
                             width: 100,
                             child: LotOfThemes.smallHeading1(StringConstants.customer)),
                         Expanded(
-                            child: LotOfThemes.smallTxt1(widget?.orders?.customerName??'')),
+                            child: LotOfThemes.smallTxt1(widget.orders.customerName??'')),
                       ],
                     ),
                     marginBottom(),
@@ -120,7 +120,7 @@ class _StockDialogState extends State<StockDialog> {
                             width: 100,
                             child: LotOfThemes.smallHeading1(StringConstants.supplier)),
                         Expanded(
-                            child: LotOfThemes.smallTxt1(widget?.orders?.supplierName??'')),
+                            child: LotOfThemes.smallTxt1(widget.orders.supplierName??'')),
                       ],
                     ),
                     marginBottom(),
@@ -129,11 +129,11 @@ class _StockDialogState extends State<StockDialog> {
                       children: [
                         SizedBox(
                             width: 100, child: LotOfThemes.smallHeading1(StringConstants.pcs)),
-                        Expanded(child: LotOfThemes.smallTxt1(widget?.orders?.pcs ??'')),
+                        Expanded(child: LotOfThemes.smallTxt1(widget.orders.pcs ??'')),
                         SizedBox(
                             width: 70,
                             child: LotOfThemes.smallHeading1(StringConstants.cases)),
-                        Expanded(child: LotOfThemes.smallTxt1(widget?.orders?.noOfCases??'')),
+                        Expanded(child: LotOfThemes.smallTxt1(widget.orders.noOfCases??'')),
                       ],
                     ),
                     marginBottom(),
@@ -144,7 +144,7 @@ class _StockDialogState extends State<StockDialog> {
                             width: 100,
                             child: LotOfThemes.smallHeading1(StringConstants.storeName)),
                         Expanded(
-                            child: LotOfThemes.smallTxt1(widget?.orders?.orderFormNo??'')),
+                            child: LotOfThemes.smallTxt1(widget.orders.orderFormNo??'')),
                       ],
                     ),
                     marginBottom(),
@@ -154,7 +154,7 @@ class _StockDialogState extends State<StockDialog> {
                         SizedBox(
                             width: 100,
                             child: LotOfThemes.smallHeading1(StringConstants.givenBy)),
-                        Expanded(child: LotOfThemes.smallTxt1(widget?.orders?.givenBy??'')),
+                        Expanded(child: LotOfThemes.smallTxt1(widget.orders.givenBy??'')),
                       ],
                     ),
                     marginBottom(),
@@ -175,7 +175,7 @@ class _StockDialogState extends State<StockDialog> {
                             width: 100,
                             child: LotOfThemes.smallHeading1(StringConstants.transport)),
                         Expanded(
-                            child: LotOfThemes.smallTxt1(widget?.orders?.transportName??'')),
+                            child: LotOfThemes.smallTxt1(widget.orders.transportName??'')),
                       ],
                     ),
                     marginBottom(),
@@ -185,7 +185,7 @@ class _StockDialogState extends State<StockDialog> {
                         SizedBox(
                             width: 100,
                             child: LotOfThemes.smallHeading1(StringConstants.dispatchDays)),
-                        Expanded(child: LotOfThemes.smallTxt1(widget?.orders?.dispatchDays??'')),
+                        Expanded(child: LotOfThemes.smallTxt1(widget.orders.dispatchDays??'')),
                       ],
                     ),
                     marginBottom(),
@@ -195,7 +195,7 @@ class _StockDialogState extends State<StockDialog> {
                         SizedBox(
                             width: 100,
                             child: LotOfThemes.smallHeading1('Booking')),
-                        Expanded(child: LotOfThemes.smallTxt1(widget?.orders?.booking??'')),
+                        Expanded(child: LotOfThemes.smallTxt1(widget.orders.booking??'')),
                       ],
                     ),
                     marginBottom(),
@@ -205,7 +205,7 @@ class _StockDialogState extends State<StockDialog> {
                         SizedBox(
                             width: 100,
                             child: LotOfThemes.smallHeading1(StringConstants.ownFirm)),
-                        Expanded(child: LotOfThemes.smallTxt1(widget?.orders?.ownFirmName??'')),
+                        Expanded(child: LotOfThemes.smallTxt1(widget.orders.ownFirmName??'')),
                       ],
                     ),
                     marginBottom(),
@@ -215,7 +215,7 @@ class _StockDialogState extends State<StockDialog> {
                         SizedBox(
                             width: 100,
                             child: LotOfThemes.smallHeading1(StringConstants.customerFirm)),
-                        Expanded(child: LotOfThemes.smallTxt1(widget?.orders?.customerFirmName??'')),
+                        Expanded(child: LotOfThemes.smallTxt1(widget.orders.customerFirmName??'')),
                       ],
                     ),
                     marginBottom(),
@@ -226,7 +226,7 @@ class _StockDialogState extends State<StockDialog> {
                             width: 100,
                             child: LotOfThemes.smallHeading1(StringConstants.shippingFirm)),
                         Expanded(
-                            child: LotOfThemes.smallTxt1(widget?.orders?.shippingFirmName??'')),
+                            child: LotOfThemes.smallTxt1(widget.orders.shippingFirmName??'')),
                       ],
                     ),
                     marginBottom(),
@@ -238,7 +238,7 @@ class _StockDialogState extends State<StockDialog> {
                             child: LotOfThemes.smallHeading1(StringConstants.styleCategory)),
                         Expanded(
                             child:
-                            LotOfThemes.smallTxt1(widget?.orders?.styleCategoryName??'')),
+                            LotOfThemes.smallTxt1(widget.orders.styleCategoryName??'')),
                       ],
                     ),
                     marginBottom(),
@@ -250,7 +250,7 @@ class _StockDialogState extends State<StockDialog> {
                             child: LotOfThemes.smallHeading1(StringConstants.salesman)),
                         Expanded(
                             child:
-                            LotOfThemes.smallTxt1(widget?.orders?.salesmanName ??'')),
+                            LotOfThemes.smallTxt1(widget.orders.salesmanName ??'')),
                       ],
                     ),
                     marginBottom(),
@@ -259,7 +259,7 @@ class _StockDialogState extends State<StockDialog> {
                       children: [
                         SizedBox(
                             width: 100, child: LotOfThemes.smallHeading1(StringConstants.billingType)),
-                        Expanded(child: LotOfThemes.smallTxt1(widget?.orders?.billingType??'')),
+                        Expanded(child: LotOfThemes.smallTxt1(widget.orders.billingType??'')),
                       ],
                     ),
                     marginBottom(),
@@ -269,7 +269,7 @@ class _StockDialogState extends State<StockDialog> {
                         SizedBox(
                             width: 100,
                             child: LotOfThemes.smallHeading1(StringConstants.billingDays)),
-                        Expanded(child: LotOfThemes.smallTxt1(widget?.orders?.billingPercentage??'')),
+                        Expanded(child: LotOfThemes.smallTxt1(widget.orders.billingPercentage??'')),
                       ],
                     ),
                     marginBottom(),
@@ -278,8 +278,8 @@ class _StockDialogState extends State<StockDialog> {
                       children: [
                         SizedBox(
                             width: 100,
-                            child: LotOfThemes.smallHeading1('Amount')),
-                        Expanded(child: LotOfThemes.smallTxt1(widget?.orders?.amount??'')),
+                            child: LotOfThemes.smallHeading1(StringConstants.amount)),
+                        Expanded(child: LotOfThemes.smallTxt1(widget.orders.amount??'')),
                       ],
                     ),
                   ],

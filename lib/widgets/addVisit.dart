@@ -32,20 +32,23 @@ class _AddVisitState extends State<AddVisit> {
   Billing? _billing;
   bool _type = false;
   bool _type2 = false;
-  TextEditingController _visitnameController = TextEditingController();
-  TextEditingController _creditlimitController = TextEditingController();
-  TextEditingController _creditlimitinWordsController = TextEditingController();
-  TextEditingController _graceamountController = TextEditingController();
-  TextEditingController _closedaysController = TextEditingController();
-  String? visit = '', credit = '', creditlimit = '', grace = '', close = '';
+  final TextEditingController _visitnameController = TextEditingController();
+  final TextEditingController _creditlimitController = TextEditingController();
+  final TextEditingController _creditlimitinWordsController = TextEditingController();
+  final TextEditingController _graceamountController = TextEditingController();
+  final TextEditingController _closedaysController = TextEditingController();
+  String? visit = '', credit = '', customer = '',
+      shipping = '', creditlimit = '', grace = '', close = '', salesman = '', account = '', party = '', own = '';
   final preference = AppPreferences();
   final AddProductController _addProductController = Get.find();
   Parties? selectedSalesmanValue;
-  String? selectedSalesmanName = 'Select Salesman', selectedAccountName = 'Select Account', selectedPartyName = 'Select Party', selectedOwnName = 'Select Own Firm';
+  String? selectedSalesmanName = 'Select Salesman',selectedCustomerName = 'Select Customer',
+      selectedAccountName = 'Select Account',selectedShippingName = 'Select Shipping', selectedPartyName = 'Select Party', selectedOwnName = 'Select Own Firm';
   Parties? selectedAccountValue;
   Parties? selectedPartyValue;
   Parties? selectedOwnValue;
-
+  Parties? selectedCustomerValue;
+  Parties? selectedShippingValue;
 
   void billingType(Billing? value) {
     setState(() {
@@ -181,7 +184,9 @@ class _AddVisitState extends State<AddVisit> {
                             setState(() => {
                               selectedAccountValue = value,
                               selectedAccountName = selectedAccountValue!.accountName,
-                            })
+                              account = selectedAccountValue!.accountId
+                            }),
+                            controller.getCustomerFirm(account!),
                           }),
                       const SizedBox(
                         height: 10,
@@ -198,7 +203,10 @@ class _AddVisitState extends State<AddVisit> {
                             setState(() => {
                               selectedPartyValue = value,
                               selectedPartyName = selectedPartyValue!.accountName,
-                            })
+                              party =selectedPartyValue!.accountId
+                            }),
+                            controller.getShippingFirm(account!, party!)
+
                           }),
                       const SizedBox(
                         height: 10,
@@ -354,118 +362,6 @@ class _AddVisitState extends State<AddVisit> {
                               style: LotOfThemes.light14),
                         ],
                       ),
-                      if (_type)
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            Text(
-                              StringConstants.customerFirm,
-                              style: LotOfThemes.light14,
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            Container(
-                                height: 45,
-                                width: MediaQuery
-                                    .of(context)
-                                    .size
-                                    .width,
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 16),
-                                decoration: BoxDecoration(
-                                    border: Border.all(
-                                        color: Colors.grey, width: 1),
-                                    borderRadius: BorderRadius.circular(5)),
-                                child: DropdownSearch<String>(
-                                  popupProps: PopupProps.dialog(
-                                      dialogProps: DialogProps(
-                                        shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(
-                                                2)),
-                                      ),
-                                      showSearchBox: true,
-                                      showSelectedItems: true),
-                                  items: const [
-                                    'abc',
-                                    'xyz',
-                                    'stu',
-                                    'qwe',
-                                    'asd',
-                                    'rtg'
-                                  ],
-                                  dropdownDecoratorProps:
-                                  const DropDownDecoratorProps(
-                                      dropdownSearchDecoration: InputDecoration(
-                                        border: InputBorder.none,
-                                        // hintText: StringConstants.selectBillingDays
-                                      )),
-                                  onChanged: (val) {
-                                    // selectedCustomer = val;
-                                    setState(() {
-                                      // initializeState(val);
-                                    });
-                                  },
-                                  // selectedItem: _chosenValue1,
-                                )),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            Text(
-                              StringConstants.shippingFirm,
-                              style: LotOfThemes.light14,
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            Container(
-                                height: 45,
-                                width: MediaQuery
-                                    .of(context)
-                                    .size
-                                    .width,
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 16),
-                                decoration: BoxDecoration(
-                                    border: Border.all(
-                                        color: Colors.grey, width: 1),
-                                    borderRadius: BorderRadius.circular(5)),
-                                child: DropdownSearch<String>(
-                                  popupProps: PopupProps.dialog(
-                                      dialogProps: DialogProps(
-                                        shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(
-                                                2)),
-                                      ),
-                                      showSearchBox: true,
-                                      showSelectedItems: true),
-                                  items: const [
-                                    'abc',
-                                    'xyz',
-                                    'stu',
-                                    'qwe',
-                                    'asd',
-                                    'rtg'
-                                  ],
-                                  dropdownDecoratorProps:
-                                  const DropDownDecoratorProps(
-                                      dropdownSearchDecoration: InputDecoration(
-                                        border: InputBorder.none,
-                                        // hintText: StringConstants.selectBillingDays
-                                      )),
-                                  onChanged: (val) {
-                                    // selectedCustomer = val;
-                                    setState(() {
-                                      // initializeState(val);
-                                    });
-                                  },
-                                  // selectedItem: _chosenValue1,
-                                )),
-                          ],
-                        ),
                       if (_type2)
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -481,15 +377,24 @@ class _AddVisitState extends State<AddVisit> {
                               height: 10,
                             ),
                             DropDown(
-                                menuItem: listOwnFirmWidgets(controller),
+                                menuItem:
+                                listOwnFirmWidgets(_addProductController),
                                 hint: StringConstants.select,
                                 selectedValue: selectedOwnValue,
                                 onChanged: (value) => {
                                   setState(() => {
                                     selectedOwnValue = value,
-                                    selectedOwnName = selectedOwnValue!.accountName,
+                                    selectedOwnName =
+                                        selectedOwnValue!.accountName,
+                                    own = selectedOwnValue!.accountId
                                   })
                                 }),
+                          ],
+                        ),
+                      if (_type || _type2)
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
                             const SizedBox(
                               height: 10,
                             ),
@@ -500,49 +405,22 @@ class _AddVisitState extends State<AddVisit> {
                             const SizedBox(
                               height: 10,
                             ),
-                            Container(
-                                height: 45,
-                                width: MediaQuery
-                                    .of(context)
-                                    .size
-                                    .width,
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 16),
-                                decoration: BoxDecoration(
-                                    border: Border.all(
-                                        color: Colors.grey, width: 1),
-                                    borderRadius: BorderRadius.circular(5)),
-                                child: DropdownSearch<String>(
-                                  popupProps: PopupProps.dialog(
-                                      dialogProps: DialogProps(
-                                        shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(
-                                                2)),
-                                      ),
-                                      showSearchBox: true,
-                                      showSelectedItems: true),
-                                  items: const [
-                                    'abc',
-                                    'xyz',
-                                    'stu',
-                                    'qwe',
-                                    'asd',
-                                    'rtg'
-                                  ],
-                                  dropdownDecoratorProps:
-                                  const DropDownDecoratorProps(
-                                      dropdownSearchDecoration: InputDecoration(
-                                        border: InputBorder.none,
-                                        // hintText: StringConstants.selectBillingDays
-                                      )),
-                                  onChanged: (val) {
-                                    // selectedCustomer = val;
-                                    setState(() {
-                                      // initializeState(val);
-                                    });
-                                  },
-                                  // selectedItem: _chosenValue1,
-                                )),
+                            DropDown(
+                                menuItem:
+                                listCustomerFirmWidgets(_addProductController),
+                                hint: StringConstants.selectCustomer,
+                                selectedValue: selectedCustomerValue,
+                                onChanged: (value) => {
+                                  // controller.getCustomerFirm(account!),
+                                  setState(() => {
+                                    selectedCustomerValue = value,
+                                    selectedCustomerName =
+                                        selectedCustomerValue!
+                                            .accountName,
+                                    customer = selectedCustomerValue!
+                                        .accountId
+                                  })
+                                }),
                             const SizedBox(
                               height: 10,
                             ),
@@ -553,49 +431,22 @@ class _AddVisitState extends State<AddVisit> {
                             const SizedBox(
                               height: 10,
                             ),
-                            Container(
-                                height: 45,
-                                width: MediaQuery
-                                    .of(context)
-                                    .size
-                                    .width,
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 16),
-                                decoration: BoxDecoration(
-                                    border: Border.all(
-                                        color: Colors.grey, width: 1),
-                                    borderRadius: BorderRadius.circular(5)),
-                                child: DropdownSearch<String>(
-                                  popupProps: PopupProps.dialog(
-                                      dialogProps: DialogProps(
-                                        shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(
-                                                2)),
-                                      ),
-                                      showSearchBox: true,
-                                      showSelectedItems: true),
-                                  items: const [
-                                    'abc',
-                                    'xyz',
-                                    'stu',
-                                    'qwe',
-                                    'asd',
-                                    'rtg'
-                                  ],
-                                  dropdownDecoratorProps:
-                                  const DropDownDecoratorProps(
-                                      dropdownSearchDecoration: InputDecoration(
-                                        border: InputBorder.none,
-                                        // hintText: StringConstants.selectBillingDays
-                                      )),
-                                  onChanged: (val) {
-                                    // selectedCustomer = val;
-                                    setState(() {
-                                      // initializeState(val);
-                                    });
-                                  },
-                                  // selectedItem: _chosenValue1,
-                                )),
+                            DropDown(
+                                menuItem:
+                                listShippingFirmWidgets(_addProductController),
+                                hint: StringConstants.selectShippping,
+                                selectedValue: selectedShippingValue,
+                                onChanged: (value) => {
+                                  // controller.getCustomerFirm(account!),
+                                  setState(() => {
+                                    selectedShippingValue = value,
+                                    selectedShippingName =
+                                        selectedShippingValue!
+                                            .accountName,
+                                    shipping = selectedShippingValue!
+                                        .accountId
+                                  })
+                                }),
                           ],
                         ),
                       const SizedBox(
@@ -702,4 +553,29 @@ class _AddVisitState extends State<AddVisit> {
             overflow: TextOverflow.ellipsis,
         ))).toList();
   }
+
+  listCustomerFirmWidgets(AddProductController controller) {
+    return controller.customerFirm!
+        .map((item) => DropdownMenuItem<Parties>(
+        value: item,
+        child: Text(
+          '${item.accountName}',
+          style: LotOfThemes.txt14DarkSmall,
+          overflow: TextOverflow.ellipsis,
+        )))
+        .toList();
+  }
+
+  listShippingFirmWidgets(AddProductController controller) {
+    return controller.shippingFirm!
+        .map((item) => DropdownMenuItem<Parties>(
+        value: item,
+        child: Text(
+          '${item.accountName}',
+          style: LotOfThemes.txt14DarkSmall,
+          overflow: TextOverflow.ellipsis,
+        )))
+        .toList();
+  }
+
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../component/roundButton.dart';
 import '../component/roundedInputField.dart';
@@ -56,7 +57,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       type: StringConstants.username,
                       keyboardType: TextInputType.text,
                     ),
-                    LotOfThemes.heightMargin(10.0),
+                    LotOfThemes.heightMargin(10.0.h),
                     RoundedInputField(
                       prefixIcon: const Icon(Icons.lock),
                       label: 'Password',
@@ -82,9 +83,9 @@ class _LoginScreenState extends State<LoginScreen> {
                           }),
                       type: _isShowPass,
                     ),
-                    LotOfThemes.heightMargin(10.0),
+                    LotOfThemes.heightMargin(10.0.h),
                     SizedBox(
-                        height: 50,
+                        height: 50.h,
                         // width: MediaQuery.of(context).size.width,
                         child:
                         //     GetBuilder<UserController>(
@@ -94,7 +95,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                                   isLoading: _controller.isLoading,
                                                   text: StringConstants.submit,
                                                   btnColor: ColorConstants.primaryColor,
-                                                  btnWidth: 300,
+                                                  btnWidth: 300.w,
                                                   press: () =>
                                                 onSubmit(),
                       //                         )

@@ -4,15 +4,15 @@ import '../../constants/stringConstants.dart';
 import '../../model/creditLimitStatus.dart';
 import '../../utils/lot-of-themes.dart';
 
-class CreditLimitListItme extends StatefulWidget {
+class CreditLimitListItem extends StatefulWidget {
   final Party? party;
-  const CreditLimitListItme(this.party, {super.key});
+  const CreditLimitListItem(this.party, {super.key});
 
   @override
-  State<CreditLimitListItme> createState() => _CreditLimitListItmeState();
+  State<CreditLimitListItem> createState() => _CreditLimitListItemState();
 }
 
-class _CreditLimitListItmeState extends State<CreditLimitListItme> {
+class _CreditLimitListItemState extends State<CreditLimitListItem> {
   Widget marginBottom() => const Padding(padding: EdgeInsets.only(bottom: 6));
 
   @override
@@ -27,7 +27,7 @@ class _CreditLimitListItmeState extends State<CreditLimitListItme> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 SizedBox(width: 100, child: LotOfThemes.smallHeading1(StringConstants.accountName),),
-                Expanded(child: LotOfThemes.smallTxt1(widget?.party?.accountName ?? '')),
+                Expanded(child: LotOfThemes.smallTxt1(widget.party?.accountName ?? '')),
               ],
             ),
             marginBottom(),
@@ -38,7 +38,7 @@ class _CreditLimitListItmeState extends State<CreditLimitListItme> {
                     width: 100,
                     child: LotOfThemes.smallHeading1(StringConstants.mobile)),
                 Expanded(
-                    child: LotOfThemes.smallTxt1(widget?.party?.mobile ?? '')),
+                    child: LotOfThemes.smallTxt1(widget.party?.mobile ?? '')),
               ],
             ),
             marginBottom(),
@@ -46,7 +46,7 @@ class _CreditLimitListItmeState extends State<CreditLimitListItme> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 SizedBox(width: 100, child: LotOfThemes.smallHeading1(StringConstants.creditLimit),),
-                Expanded(child: LotOfThemes.smallTxt1(widget?.party?.creditLimit ?? '')),
+                Expanded(child: LotOfThemes.smallTxt1(widget.party?.creditLimit ?? '')),
 
               ],
             ),
@@ -58,7 +58,7 @@ class _CreditLimitListItmeState extends State<CreditLimitListItme> {
                     width: 100,
                     child: LotOfThemes.smallHeading1(StringConstants.ledgerBalance)),
                 Expanded(
-                    child: LotOfThemes.smallTxt1(widget?.party?.ledgerBalance ?? '')),
+                    child: LotOfThemes.smallTxt1(widget.party?.ledgerBalance ?? '')),
               ],
             ),
             marginBottom(),
@@ -66,7 +66,7 @@ class _CreditLimitListItmeState extends State<CreditLimitListItme> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 SizedBox(width: 100, child: LotOfThemes.smallHeading1(StringConstants.avaiableLimit),),
-                Expanded(child: LotOfThemes.smallTxt1(widget?.party?.balanceAmount ?? '')),
+                Expanded(child: LotOfThemes.smallTxt1(widget.party?.balanceAmount ?? '')),
 
               ],
             ),
@@ -75,7 +75,7 @@ class _CreditLimitListItmeState extends State<CreditLimitListItme> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 SizedBox(width: 100, child: LotOfThemes.smallHeading1(StringConstants.limitUtilized),),
-                Expanded(child: LotOfThemes.smallTxt1(widget?.party?.balanceAmount ?? '')),
+                Expanded(child: LotOfThemes.smallTxt1(widget.party?.balanceAmount ?? '')),
 
               ],
             ),
@@ -84,7 +84,7 @@ class _CreditLimitListItmeState extends State<CreditLimitListItme> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 SizedBox(width: 100, child: LotOfThemes.smallHeading1(StringConstants.dueBalance),),
-                Expanded(child: LotOfThemes.smallTxt1(widget?.party?.dueBalance ?? '')),
+                Expanded(child: LotOfThemes.smallTxt1(widget.party?.dueBalance ?? '')),
 
               ],
             )

@@ -8,7 +8,7 @@ import '../../utils/lot-of-themes.dart';
 
 class StatusDialog extends StatefulWidget {
   final AgencyVisits agencyVisits;
-  const StatusDialog(this.agencyVisits);
+  const StatusDialog(this.agencyVisits, {super.key});
 
   @override
   State<StatusDialog> createState() => _StatusDialogState();
@@ -25,20 +25,21 @@ class _StatusDialogState extends State<StatusDialog> {
         color: ColorConstants.primaryColor,
         borderRadius:  const BorderRadius.only(
         topLeft: Radius.circular(4),
-    )),
+          topRight: Radius.circular(4),
+        )),
      child: Material(
        child: SingleChildScrollView(
          child: Column(
            children: [
              Container(
                color: ColorConstants.primaryColor,
-               padding: EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+               padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
                child: Row(
                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                  children: [
                    InkWell(
                      onTap: (){
-                       Get.to(UpdateAgency());
+                       Get.to(const UpdateAgency());
                      },
                      child: Container(
                          padding: const EdgeInsets.symmetric(
@@ -77,9 +78,9 @@ class _StatusDialogState extends State<StatusDialog> {
                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                      children: [
                        SizedBox(width: 100, child: LotOfThemes.smallHeading1(StringConstants.visitDate),),
-                       Expanded(child: LotOfThemes.smallTxt1(widget?.agencyVisits?.vchDate?? '')),
+                       Expanded(child: LotOfThemes.smallTxt1(widget.agencyVisits.vchDate?? '')),
                        SizedBox(width: 100, child: LotOfThemes.smallHeading1(StringConstants.closeDate),),
-                       Expanded(child: LotOfThemes.smallTxt1(widget?.agencyVisits?.dueDate?? '')),
+                       Expanded(child: LotOfThemes.smallTxt1(widget.agencyVisits.dueDate?? '')),
                      ],
                    ),
                    marginBottom(),
@@ -90,7 +91,7 @@ class _StatusDialogState extends State<StatusDialog> {
                            width: 100,
                            child: LotOfThemes.smallHeading1(StringConstants.accountName)),
                        Expanded(
-                           child: LotOfThemes.smallTxt1(widget?.agencyVisits?.accountName?? '')),
+                           child: LotOfThemes.smallTxt1(widget.agencyVisits.accountName?? '')),
                      ],
                    ),
                    marginBottom(),
@@ -101,7 +102,7 @@ class _StatusDialogState extends State<StatusDialog> {
                            width: 100,
                            child: LotOfThemes.smallHeading1(StringConstants.partyName)),
                        Expanded(
-                           child: LotOfThemes.smallTxt1(widget?.agencyVisits?.partyName?? '')),
+                           child: LotOfThemes.smallTxt1(widget.agencyVisits.partyName?? '')),
                      ],
                    ),
                    marginBottom(),
@@ -112,7 +113,7 @@ class _StatusDialogState extends State<StatusDialog> {
                            width: 100,
                            child: LotOfThemes.smallHeading1(StringConstants.salesman)),
                        Expanded(
-                           child: LotOfThemes.smallTxt1(widget?.agencyVisits?.salesmanName?? '')),
+                           child: LotOfThemes.smallTxt1(widget.agencyVisits.salesmanName?? '')),
                      ],
                    ),
                    marginBottom(),
@@ -123,7 +124,7 @@ class _StatusDialogState extends State<StatusDialog> {
                            width: 100,
                            child: LotOfThemes.smallHeading1(StringConstants.graceAmount)),
                        Expanded(
-                           child: LotOfThemes.smallTxt1(widget?.agencyVisits?.amount?? '')),
+                           child: LotOfThemes.smallTxt1(widget.agencyVisits.amount?? '')),
                      ],
                    ),
                    marginBottom(),
@@ -134,7 +135,7 @@ class _StatusDialogState extends State<StatusDialog> {
                            width: 100,
                            child: LotOfThemes.smallHeading1(StringConstants.creditLimit)),
                        Expanded(
-                           child: LotOfThemes.smallTxt1(widget?.agencyVisits?.creditLimit?? '')),
+                           child: LotOfThemes.smallTxt1(widget.agencyVisits.creditLimit?? '')),
                      ],
                    ),
                    marginBottom(),
@@ -145,7 +146,7 @@ class _StatusDialogState extends State<StatusDialog> {
                            width: 100,
                            child: LotOfThemes.smallHeading1(StringConstants.visitName)),
                        Expanded(
-                           child: LotOfThemes.smallTxt1(widget?.agencyVisits?.agencyVisitName?? '')),
+                           child: LotOfThemes.smallTxt1(widget.agencyVisits.agencyVisitName?? '')),
                      ],
                    ),
                    marginBottom(),
@@ -156,7 +157,7 @@ class _StatusDialogState extends State<StatusDialog> {
                            width: 100,
                            child: LotOfThemes.smallHeading1(StringConstants.dueDays)),
                        Expanded(
-                           child: LotOfThemes.smallTxt1(widget?.agencyVisits?.dueDays?? '')),
+                           child: LotOfThemes.smallTxt1(widget.agencyVisits.dueDays?? '')),
                      ],
                    ),
                    marginBottom(),
@@ -167,7 +168,7 @@ class _StatusDialogState extends State<StatusDialog> {
                            width: 100,
                            child: LotOfThemes.smallHeading1(StringConstants.billingOption)),
                        Expanded(
-                           child: LotOfThemes.smallTxt1(widget?.agencyVisits?.agencyBillingTypeNameList?? '')),
+                           child: LotOfThemes.smallTxt1(widget.agencyVisits.agencyBillingTypeNameList?? '')),
                      ],
                    ),
                    marginBottom(),
@@ -178,7 +179,7 @@ class _StatusDialogState extends State<StatusDialog> {
                            width: 100,
                            child: LotOfThemes.smallHeading1(StringConstants.ownFirm)),
                        Expanded(
-                           child: LotOfThemes.smallTxt1(widget?.agencyVisits?.ownFirmName?? '')),
+                           child: LotOfThemes.smallTxt1(widget.agencyVisits.ownFirmName?? '')),
                      ],
                    ),
                    marginBottom(),
@@ -189,7 +190,7 @@ class _StatusDialogState extends State<StatusDialog> {
                            width: 100,
                            child: LotOfThemes.smallHeading1(StringConstants.customerFirm)),
                        Expanded(
-                           child: LotOfThemes.smallTxt1(widget?.agencyVisits?.customerFirmName?? '')),
+                           child: LotOfThemes.smallTxt1(widget.agencyVisits.customerFirmName?? '')),
                      ],
                    ),
                    marginBottom(),
@@ -200,7 +201,7 @@ class _StatusDialogState extends State<StatusDialog> {
                            width: 100,
                            child: LotOfThemes.smallHeading1(StringConstants.shippingFirm)),
                        Expanded(
-                           child: LotOfThemes.smallTxt1(widget?.agencyVisits?.shippingFirmName?? '')),
+                           child: LotOfThemes.smallTxt1(widget.agencyVisits.shippingFirmName?? '')),
                      ],
                    ),
                    marginBottom(),
@@ -211,7 +212,7 @@ class _StatusDialogState extends State<StatusDialog> {
                            width: 100,
                            child: LotOfThemes.smallHeading1(StringConstants.billingDays)),
                        Expanded(
-                           child: LotOfThemes.smallTxt1(widget?.agencyVisits?.billingPercentage?? '')),
+                           child: LotOfThemes.smallTxt1(widget.agencyVisits.billingPercentage?? '')),
                      ],
                    ),
                  ],

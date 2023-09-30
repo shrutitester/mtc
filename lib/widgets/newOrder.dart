@@ -1,5 +1,6 @@
 import 'dart:core';
 
+import 'package:custom_searchable_dropdown/custom_searchable_dropdown.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -16,7 +17,6 @@ import '../model/listParties.dart';
 import '../utils/lot-of-themes.dart';
 
 class NewOrder extends StatefulWidget {
-
   const NewOrder({Key? key}) : super(key: key);
 
   @override
@@ -39,7 +39,8 @@ class _NewOrderState extends State<NewOrder> {
   bool _homeFieldVisible = true;
   bool _type = false;
   bool _type2 = false;
-  final TextEditingController _subPartyRemarkController = TextEditingController();
+  final TextEditingController _subPartyRemarkController =
+      TextEditingController();
   final TextEditingController _dispatchController = TextEditingController();
   final TextEditingController _givenByController = TextEditingController();
   final TextEditingController _itemRemarkController = TextEditingController();
@@ -49,8 +50,29 @@ class _NewOrderState extends State<NewOrder> {
   final TextEditingController _noOfCasesController = TextEditingController();
   final TextEditingController _bookingController = TextEditingController();
   final TextEditingController _markaController = TextEditingController();
-  final TextEditingController _dispatchRemarkController = TextEditingController();
-  String? subParty = '', dispatchdays = '', givenBy = '', item = '', qty = '', amount = '',  amountInWork = '', cases = '', booking = '', marka = '', dispatch = '', supplierid = '';
+  final TextEditingController _dispatchRemarkController =
+      TextEditingController();
+  String? subParty = '',
+      account = '',
+      own = '',
+      style = '',
+      party = '',
+      salesmanid = '',
+      dispatchdays = '',
+      givenBy = '',
+      item = '',
+      qty = '',
+      amount = '',
+      amountInWork = '',
+      transport = '',
+      cases = '',
+      booking = '',
+      marka = '',
+      dispatch = '',
+  customer = '',
+  shipping = '',
+  visit = '',
+      supplierid = '';
   final AddProductController _addProductController = Get.find();
   Parties? selectedAccountValue;
   Parties? selectedPartyValue;
@@ -58,8 +80,20 @@ class _NewOrderState extends State<NewOrder> {
   Parties? selectedTransportValue;
   Parties? selectedOwnValue;
   Parties? selectedSupplierValue;
+  Parties? selectedCustomerValue;
+  Parties? selectedShippingValue;
+  Parties? selectedVisitValue;
   StyleCategories? selectedStyleValue;
-  String? selectedStyleName = 'Select Style',selectedSupplierName = 'Select supplier',selectedOwnName = 'Select Own Firm',selectedTransportName = 'Select Salesman',selectedSalesmanName = 'Select Salesman',selectedPartyName = 'Select Party',selectedAccountName = 'Select Account';
+  String? selectedStyleName = 'Select Style',
+      selectedSupplierName = 'Select supplier',
+      selectedOwnName = 'Select Own Firm',
+      selectedTransportName = 'Select Salesman',
+      selectedSalesmanName = 'Select Salesman',
+      selectedPartyName = 'Select Party',
+      selectedVisitName = 'Select Visit',
+      selectedCustomerName = 'Select Customer',
+      selectedAccountName = 'Select Account',
+      selectedShippingName = 'Select Shipping';
 
   void handleSelection(Place? value) {
     setState(() {
@@ -77,12 +111,6 @@ class _NewOrderState extends State<NewOrder> {
       _billing = value;
       _type2 = value == Billing.through;
     });
-  }
-
-  @override
-  void initState() {
-    getStyle();
-    super.initState();
   }
 
   @override
@@ -122,16 +150,68 @@ class _NewOrderState extends State<NewOrder> {
                           StringConstants.account,
                           style: LotOfThemes.light14,
                         ),
+                        // SizedBox(
+                        //   height: 50,
+                        //   child: CustomSearchableDropDown(
+                        //     items: controller.account ?? [],
+                        //     label: StringConstants.selectAccount,
+                        //     // multiSelectTag: 'Names',
+                        //     // multiSelectValuesAsWidget: true,
+                        //     // multiSelect: true,
+                        //     decoration: BoxDecoration(
+                        //         borderRadius: BorderRadius.circular(4),
+                        //         border: Border.all(
+                        //             color: Colors.grey)),
+                        //     dropDownMenuItems: controller.account?.map((item) {
+                        //       return item.accountName;})?.toList() ?? [],
+                        //     onChanged: (value){
+                        //       if(value!=null) {selected = value.toString();} else{selected=null;}
+                        //       setState(() => {
+                        //         selectedAccountValue = value,
+                        //         selectedAccountName = selectedAccountValue!.accountName,
+                        //         customer = selectedAccountValue!.accountId!});
+                        //       controller.getPendingCreditLimit(customer!);
+                        //
+                        //     },),
+                        // ),
                         DropDown(
-                            menuItem: listAccountWidgets(_addProductController),
+                            menuItem:
+                            listAccountWidgets(_addProductController),
                             hint: StringConstants.selectAccount,
                             selectedValue: selectedAccountValue,
                             onChanged: (value) => {
-                              setState(() => {
-                                selectedAccountValue = value,
-                                selectedAccountName = selectedAccountValue!.accountName,
-                              })
+                                  setState(() => {
+                                        selectedAccountValue = value,
+                                        selectedAccountName =
+                                            selectedAccountValue!.accountName,
+                                        account =
+                                            selectedAccountValue!.accountId
+                                      }),                                  controller.getCustomerFirm(account!),
+                              controller.getCustomerFirm(account!),
                             }),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            Text(
+                              StringConstants.avaiableBalance,
+                              style: LotOfThemes.light14,
+                            ),
+                            RoundedInputField(
+                              hintText: StringConstants.avaiableBalance,
+                              controller: _subPartyRemarkController,
+                              keyboardType: TextInputType.text,
+                              type: StringConstants.username,
+                              onChanged: (val) {
+                                setState(() {
+                                  account = val;
+                                });
+                              },
+                            ),
+                          ],
+                        ),
                         const SizedBox(
                           height: 10,
                         ),
@@ -144,11 +224,62 @@ class _NewOrderState extends State<NewOrder> {
                             hint: StringConstants.selectParty,
                             selectedValue: selectedPartyValue,
                             onChanged: (value) => {
-                              setState(() => {
-                                selectedPartyValue = value,
-                                selectedPartyName = selectedPartyValue!.accountName,
-                              })
-                            }),
+                                  setState(() => {
+                                        selectedPartyValue = value,
+                                        selectedPartyName =
+                                            selectedPartyValue!.accountName,
+                                        party = selectedPartyValue!.accountId
+                                      }),
+                              controller.getShippingFirm(account!, party!)
+                                }),
+                        // SizedBox(
+                        //   height: 50,
+                        //   child: CustomSearchableDropDown(
+                        //     items: controller.party ?? [],
+                        //     label: StringConstants.selectParty,
+                        //     // multiSelectTag: 'Names',
+                        //     // multiSelectValuesAsWidget: true,
+                        //     // multiSelect: true,
+                        //     decoration: BoxDecoration(
+                        //         borderRadius: BorderRadius.circular(4),
+                        //         border: Border.all(
+                        //             color: Colors.grey)),
+                        //     dropDownMenuItems: controller.party?.map((item) {
+                        //       return item.accountName;})?.toList() ?? [],
+                        //     onChanged: (value){
+                        //       if(value!=null) {selected = value.toString();} else{selected=null;}
+                        //       setState(() => {
+                        //         selectedPartyValue = value,
+                        //         selectedPartyName =
+                        //             selectedPartyValue!.accountName,
+                        //         party = selectedPartyValue!.accountId});
+                        //       controller.getShippingFirm(account!, party!);
+                        //
+                        //     },),
+                        // ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            Text(
+                              StringConstants.avaiableBalance,
+                              style: LotOfThemes.light14,
+                            ),
+                            RoundedInputField(
+                              hintText: StringConstants.avaiableBalance,
+                              controller: _subPartyRemarkController,
+                              keyboardType: TextInputType.text,
+                              type: StringConstants.username,
+                              onChanged: (val) {
+                                setState(() {
+                                  party = val;
+                                });
+                              },
+                            ),
+                          ],
+                        ),
                         const SizedBox(
                           height: 10,
                         ),
@@ -170,44 +301,50 @@ class _NewOrderState extends State<NewOrder> {
                           StringConstants.visit,
                           style: LotOfThemes.light14,
                         ),
-                        Container(
-                            height: 45,
-                            width: MediaQuery
-                                .of(context)
-                                .size
-                                .width,
-                            padding: const EdgeInsets.symmetric(horizontal: 16),
-                            decoration: BoxDecoration(
-                                border: Border.all(
-                                    color: Colors.grey, width: 1),
-                                borderRadius: BorderRadius.circular(5)),
-                            child: DropdownSearch<String>(
-                              popupProps: PopupProps.dialog(
-                                  dialogProps: DialogProps(
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(2)),
-                                  ),
-                                  showSearchBox: true, showSelectedItems: true),
-                              items: const [
-                                'abc',
-                                'xyz',
-                                'stu',
-                                'qwe',
-                                'asd',
-                                'rtg'
-                              ],
-                              dropdownDecoratorProps: const DropDownDecoratorProps(
-                                  dropdownSearchDecoration: InputDecoration(
-                                      border: InputBorder.none,
-                                      hintText: StringConstants.selectVisit)),
-                              onChanged: (val) {
-                                // selectedCustomer = val;
-                                setState(() {
-                                  // initializeState(val);
-                                });
-                              },
-                              // selectedItem: _chosenValue1,
-                            )),
+                        DropDown(
+                            menuItem:
+                            listShippingFirmWidgets(_addProductController),
+                            hint: StringConstants.selectVisit,
+                            selectedValue: selectedVisitValue,
+                            onChanged: (value) => {
+                              // controller.getCustomerFirm(account!),
+                              setState(() => {
+                                selectedVisitValue = value,
+                                selectedVisitName =
+                                    selectedVisitValue!
+                                        .accountName,
+                                shipping = selectedVisitValue!
+                                    .accountId
+                              })
+                            }),
+                        // SizedBox(
+                        //   height: 50,
+                        //   child: CustomSearchableDropDown(
+                        //     items: controller.shippingFirm ?? [],
+                        //     label: StringConstants.selectVisit,
+                        //     // multiSelectTag: 'Names',
+                        //     // multiSelectValuesAsWidget: true,
+                        //     // multiSelect: true,
+                        //     decoration: BoxDecoration(
+                        //         borderRadius: BorderRadius.circular(4),
+                        //         border: Border.all(
+                        //             color: Colors.grey)),
+                        //     dropDownMenuItems: controller.shippingFirm?.map((item) {
+                        //       return item.accountName;})?.toList() ?? [],
+                        //     onChanged: (value){
+                        //       if(value!=null) {selected = value.toString();} else{selected=null;}
+                        //       setState(() => {
+                        //         selectedVisitValue = value,
+                        //         selectedVisitName =
+                        //             selectedVisitValue!
+                        //                 .accountName,
+                        //         shipping = selectedVisitValue!
+                        //             .accountId});
+                        //       // controller.getPendingCreditLimit(customer!);
+                        //
+                        //     },),
+                        // ),
+
                         const SizedBox(
                           height: 10,
                         ),
@@ -215,16 +352,46 @@ class _NewOrderState extends State<NewOrder> {
                           StringConstants.salesman,
                           style: LotOfThemes.light14,
                         ),
+                        // SizedBox(
+                        //   height: 50,
+                        //   child: CustomSearchableDropDown(
+                        //     items: controller.parties ?? [],
+                        //     label: StringConstants.selectSalesman,
+                        //     // multiSelectTag: 'Names',
+                        //     // multiSelectValuesAsWidget: true,
+                        //     // multiSelect: true,
+                        //     decoration: BoxDecoration(
+                        //         borderRadius: BorderRadius.circular(4),
+                        //         border: Border.all(
+                        //             color: Colors.grey)),
+                        //     dropDownMenuItems: controller.parties?.map((item) {
+                        //       return item.accountName;})?.toList() ?? [],
+                        //     onChanged: (value){
+                        //       if(value!=null) {selected = value.toString();} else{selected=null;}
+                        //       setState(() => {
+                        //         selectedSalesmanValue = value,
+                        //         selectedSalesmanName =
+                        //             selectedSalesmanValue!.accountName,
+                        //         salesmanid =
+                        //             selectedSalesmanValue!.accountId});
+                        //       controller.getPendingCreditLimit(customer!);
+                        //
+                        //     },),
+                        // ),
                         DropDown(
-                            menuItem: listSalesmanWidgets(_addProductController),
+                            menuItem:
+                                listSalesmanWidgets(_addProductController),
                             hint: StringConstants.selectSalesman,
                             selectedValue: selectedSalesmanValue,
                             onChanged: (value) => {
-                              setState(() => {
-                                selectedSalesmanValue = value,
-                                selectedSalesmanName = selectedSalesmanValue!.accountName,
-                              })
-                            }),
+                                  setState(() => {
+                                        selectedSalesmanValue = value,
+                                        selectedSalesmanName =
+                                            selectedSalesmanValue!.accountName,
+                                        salesmanid =
+                                            selectedSalesmanValue!.accountId
+                                      })
+                                }),
                         const SizedBox(
                           height: 10,
                         ),
@@ -248,47 +415,47 @@ class _NewOrderState extends State<NewOrder> {
                             ),
                             Expanded(
                                 child: SizedBox(
-                                  height: 50,
-                                  child: TextFormField(
-                                    onChanged: (val) {
-                                      setState(() {
-                                        dateValue = val;
-                                      });
-                                    },
-                                    validator: (value) {
-                                      if (value == null || value.isEmpty) {
-                                        return 'Please select date';
-                                      }
-                                      return null;
-                                    },
-                                    controller: dateinput,
-                                    decoration: const InputDecoration(
-                                      border: OutlineInputBorder(),
-                                      hintText: '01/04/2023',
-                                      suffixIcon: Icon(
-                                          Icons.calendar_today_outlined),
-                                    ),
-                                    readOnly: true,
-                                    onTap: () async {
-                                      DateTime? pickedDate = await showDatePicker(
-                                          context: context,
-                                          initialDate: DateTime.now(),
-                                          firstDate: DateTime.now(),
-                                          lastDate: DateTime(2101));
-                                      if (pickedDate != null) {
-                                        String formattedDate =
-                                        DateFormat('dd-MM-yyyy').format(
-                                            pickedDate);
-                                        setState(() {
-                                          dateinput.text = formattedDate;
-                                        });
-                                      } else {
-                                        const Text(
-                                            StringConstants.dateIsNotSelected);
-                                      }
-                                    },
-                                  ),
-                                )),
+                              height: 50,
+                              child: TextFormField(
+                                onChanged: (val) {
+                                  setState(() {
+                                    dateValue = val;
+                                  });
+                                },
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'Please select date';
+                                  }
+                                  return null;
+                                },
+                                controller: dateinput,
+                                decoration: const InputDecoration(
+                                  border: OutlineInputBorder(),
+                                  hintText: '01/04/2023',
+                                  suffixIcon:
+                                      Icon(Icons.calendar_today_outlined),
+                                ),
+                                readOnly: true,
+                                onTap: () async {
+                                  DateTime? pickedDate = await showDatePicker(
+                                      context: context,
+                                      initialDate: DateTime.now(),
+                                      firstDate: DateTime.now(),
+                                      lastDate: DateTime(2101));
+                                  if (pickedDate != null) {
+                                    String formattedDate =
+                                        DateFormat('dd-MM-yyyy')
+                                            .format(pickedDate);
+                                    setState(() {
+                                      dateinput.text = formattedDate;
+                                    });
+                                  } else {
+                                    const Text(
+                                        StringConstants.dateIsNotSelected);
+                                  }
+                                },
+                              ),
+                            )),
                           ],
                         ),
                         const SizedBox(
@@ -300,13 +467,12 @@ class _NewOrderState extends State<NewOrder> {
                         ),
                         Column(
                           children: [
-                            Row(
-                                children: [
+                            Row(children: [
                               Transform.scale(
                                 scale: 1.20,
                                 child: Radio<bool>(
                                   fillColor: MaterialStateColor.resolveWith(
-                                          (states) => Colors.black),
+                                      (states) => Colors.black),
                                   value: selectedScheme,
                                   groupValue: true,
                                   onChanged: (value) {
@@ -327,8 +493,8 @@ class _NewOrderState extends State<NewOrder> {
                                   child: Radio<bool>(
                                     activeColor: ColorConstants.primaryColor,
                                     fillColor: MaterialStateColor.resolveWith(
-                                            (states) =>
-                                        ColorConstants.txtColorDark),
+                                        (states) =>
+                                            ColorConstants.txtColorDark),
                                     value: selectedScheme,
                                     groupValue: true,
                                     onChanged: (value) {
@@ -349,8 +515,8 @@ class _NewOrderState extends State<NewOrder> {
                                   child: Radio<bool>(
                                     activeColor: ColorConstants.primaryColor,
                                     fillColor: MaterialStateColor.resolveWith(
-                                            (states) =>
-                                        ColorConstants.txtColorDark),
+                                        (states) =>
+                                            ColorConstants.txtColorDark),
                                     value: selectedScheme,
                                     groupValue: false,
                                     onChanged: (value) {
@@ -388,16 +554,20 @@ class _NewOrderState extends State<NewOrder> {
                           style: LotOfThemes.light14,
                         ),
                         DropDown(
-                            menuItem: listSupplierWidgets(_addProductController),
+                            menuItem:
+                                listSupplierWidgets(_addProductController),
                             hint: StringConstants.selectSupplier,
                             selectedValue: selectedSupplierValue,
                             onChanged: (value) => {
-                              setState(() => {
-                                selectedSupplierValue = value,
-                                selectedSupplierName = selectedSupplierValue!.accountName,
-                                supplierid = selectedSupplierValue!.accountId
-                              })
-                            }),
+                                  setState(() => {
+                                        selectedSupplierValue = value,
+                                        selectedSupplierName =
+                                            selectedSupplierValue!.accountName,
+                                        supplierid =
+                                            selectedSupplierValue!.accountId
+                                      }),
+                                  controller.getStyleCategory(supplierid!)
+                                }),
                         const SizedBox(
                           height: 10,
                         ),
@@ -409,12 +579,13 @@ class _NewOrderState extends State<NewOrder> {
                             menuItem: listStyleWidgets(_addProductController),
                             hint: StringConstants.selectStyleCategory,
                             selectedValue: selectedStyleValue,
-                            onChanged: (value) async {
-                              await controller.getStyleCategory(supplierid!);
-                              // setState(() => {
-                              //   selectedStyleValue = value,
-                              //   selectedStyleName = selectedStyleValue!.styleCategoryName,
-                              // });
+                            onChanged: (value) {
+                              setState(() => {
+                                    selectedStyleValue = value,
+                                    selectedStyleName =
+                                        selectedStyleValue!.styleCategoryName,
+                                    style = selectedStyleValue!.styleCategoryID
+                                  });
                             }),
                         const SizedBox(
                           height: 10,
@@ -549,15 +720,21 @@ class _NewOrderState extends State<NewOrder> {
                                 height: 10,
                               ),
                               DropDown(
-                                  menuItem: listTransportWidgets(_addProductController),
+                                  menuItem: listTransportWidgets(
+                                      _addProductController),
                                   hint: StringConstants.selectTransport,
                                   selectedValue: selectedTransportValue,
                                   onChanged: (value) => {
-                                    setState(() => {
-                                      selectedTransportValue = value,
-                                      selectedTransportName = selectedTransportValue!.accountName,
-                                    })
-                                  }),
+                                        setState(() => {
+                                              selectedTransportValue = value,
+                                              selectedTransportName =
+                                                  selectedTransportValue!
+                                                      .accountName,
+                                              transport =
+                                                  selectedTransportValue!
+                                                      .accountId
+                                            })
+                                      }),
                               const SizedBox(
                                 height: 10,
                               ),
@@ -622,8 +799,8 @@ class _NewOrderState extends State<NewOrder> {
                                 onChanged: billingType,
                               ),
                             ),
-                            Text(StringConstants.none, style: LotOfThemes
-                                .light14),
+                            Text(StringConstants.none,
+                                style: LotOfThemes.light14),
                             Transform.scale(
                               scale: 1.20,
                               child: Radio(
@@ -646,120 +823,6 @@ class _NewOrderState extends State<NewOrder> {
                                 style: LotOfThemes.light14),
                           ],
                         ),
-                        if (_type)
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              Text(
-                                StringConstants.customerFirm,
-                                style: LotOfThemes.light14,
-                              ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              Container(
-                                  height: 45,
-                                  width: MediaQuery
-                                      .of(context)
-                                      .size
-                                      .width,
-                                  padding:
-                                  const EdgeInsets.symmetric(horizontal: 16),
-                                  decoration: BoxDecoration(
-                                      border:
-                                      Border.all(color: Colors.grey, width: 1),
-                                      borderRadius: BorderRadius.circular(5)),
-                                  child: DropdownSearch<String>(
-                                    popupProps: PopupProps.dialog(
-                                        dialogProps: DialogProps(
-                                          shape: RoundedRectangleBorder(
-                                              borderRadius: BorderRadius
-                                                  .circular(2)),
-                                        ),
-                                        showSearchBox: true,
-                                        showSelectedItems: true),
-                                    items: const [
-                                      'abc',
-                                      'xyz',
-                                      'stu',
-                                      'qwe',
-                                      'asd',
-                                      'rtg'
-                                    ],
-                                    dropdownDecoratorProps:
-                                    const DropDownDecoratorProps(
-                                        dropdownSearchDecoration:
-                                        InputDecoration(
-                                          border: InputBorder.none,
-                                          // hintText: StringConstants.selectBillingDays
-                                        )),
-                                    onChanged: (val) {
-                                      // selectedCustomer = val;
-                                      setState(() {
-                                        // initializeState(val);
-                                      });
-                                    },
-                                    // selectedItem: _chosenValue1,
-                                  )),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              Text(
-                                StringConstants.shippingFirm,
-                                style: LotOfThemes.light14,
-                              ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              Container(
-                                  height: 45,
-                                  width: MediaQuery
-                                      .of(context)
-                                      .size
-                                      .width,
-                                  padding:
-                                  const EdgeInsets.symmetric(horizontal: 16),
-                                  decoration: BoxDecoration(
-                                      border:
-                                      Border.all(color: Colors.grey, width: 1),
-                                      borderRadius: BorderRadius.circular(5)),
-                                  child: DropdownSearch<String>(
-                                    popupProps: PopupProps.dialog(
-                                        dialogProps: DialogProps(
-                                          shape: RoundedRectangleBorder(
-                                              borderRadius: BorderRadius
-                                                  .circular(2)),
-                                        ),
-                                        showSearchBox: true,
-                                        showSelectedItems: true),
-                                    items: const [
-                                      'abc',
-                                      'xyz',
-                                      'stu',
-                                      'qwe',
-                                      'asd',
-                                      'rtg'
-                                    ],
-                                    dropdownDecoratorProps:
-                                    const DropDownDecoratorProps(
-                                        dropdownSearchDecoration:
-                                        InputDecoration(
-                                          border: InputBorder.none,
-                                          // hintText: StringConstants.selectBillingDays
-                                        )),
-                                    onChanged: (val) {
-                                      // selectedCustomer = val;
-                                      setState(() {
-                                        // initializeState(val);
-                                      });
-                                    },
-                                    // selectedItem: _chosenValue1,
-                                  )),
-                            ],
-                          ),
                         if (_type2)
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -775,15 +838,25 @@ class _NewOrderState extends State<NewOrder> {
                                 height: 10,
                               ),
                               DropDown(
-                                  menuItem: listOwnFirmWidgets(_addProductController),
+                                  menuItem:
+                                  listOwnFirmWidgets(_addProductController),
                                   hint: StringConstants.select,
                                   selectedValue: selectedOwnValue,
                                   onChanged: (value) => {
                                     setState(() => {
                                       selectedOwnValue = value,
-                                      selectedOwnName = selectedOwnValue!.accountName,
+                                      selectedOwnName =
+                                          selectedOwnValue!.accountName,
+                                      own = selectedOwnValue!.accountId
                                     })
                                   }),
+
+                            ],
+                          ),
+                        if (_type || _type2)
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
                               const SizedBox(
                                 height: 10,
                               ),
@@ -794,50 +867,22 @@ class _NewOrderState extends State<NewOrder> {
                               const SizedBox(
                                 height: 10,
                               ),
-                              Container(
-                                  height: 45,
-                                  width: MediaQuery
-                                      .of(context)
-                                      .size
-                                      .width,
-                                  padding:
-                                  const EdgeInsets.symmetric(horizontal: 16),
-                                  decoration: BoxDecoration(
-                                      border:
-                                      Border.all(color: Colors.grey, width: 1),
-                                      borderRadius: BorderRadius.circular(5)),
-                                  child: DropdownSearch<String>(
-                                    popupProps: PopupProps.dialog(
-                                        dialogProps: DialogProps(
-                                          shape: RoundedRectangleBorder(
-                                              borderRadius: BorderRadius
-                                                  .circular(2)),
-                                        ),
-                                        showSearchBox: true,
-                                        showSelectedItems: true),
-                                    items: const [
-                                      'abc',
-                                      'xyz',
-                                      'stu',
-                                      'qwe',
-                                      'asd',
-                                      'rtg'
-                                    ],
-                                    dropdownDecoratorProps:
-                                    const DropDownDecoratorProps(
-                                        dropdownSearchDecoration:
-                                        InputDecoration(
-                                          border: InputBorder.none,
-                                          // hintText: StringConstants.selectBillingDays
-                                        )),
-                                    onChanged: (val) {
-                                      // selectedCustomer = val;
-                                      setState(() {
-                                        // initializeState(val);
-                                      });
-                                    },
-                                    // selectedItem: _chosenValue1,
-                                  )),
+                              DropDown(
+                                  menuItem:
+                                  listCustomerFirmWidgets(_addProductController),
+                                  hint: StringConstants.selectCustomer,
+                                  selectedValue: selectedCustomerValue,
+                                  onChanged: (value) => {
+                                        // controller.getCustomerFirm(account!),
+                                        setState(() => {
+                                          selectedCustomerValue = value,
+                                              selectedCustomerName =
+                                                  selectedCustomerValue!
+                                                      .accountName,
+                                              customer = selectedCustomerValue!
+                                                  .accountId
+                                            })
+                                      }),
                               const SizedBox(
                                 height: 10,
                               ),
@@ -848,52 +893,25 @@ class _NewOrderState extends State<NewOrder> {
                               const SizedBox(
                                 height: 10,
                               ),
-                              Container(
-                                  height: 45,
-                                  width: MediaQuery
-                                      .of(context)
-                                      .size
-                                      .width,
-                                  padding:
-                                  const EdgeInsets.symmetric(horizontal: 16),
-                                  decoration: BoxDecoration(
-                                      border:
-                                      Border.all(color: Colors.grey, width: 1),
-                                      borderRadius: BorderRadius.circular(5)),
-                                  child: DropdownSearch<String>(
-                                    popupProps: PopupProps.dialog(
-                                        dialogProps: DialogProps(
-                                          shape: RoundedRectangleBorder(
-                                              borderRadius: BorderRadius
-                                                  .circular(2)),
-                                        ),
-                                        showSearchBox: true,
-                                        showSelectedItems: true),
-                                    items: const [
-                                      'abc',
-                                      'xyz',
-                                      'stu',
-                                      'qwe',
-                                      'asd',
-                                      'rtg'
-                                    ],
-                                    dropdownDecoratorProps:
-                                    const DropDownDecoratorProps(
-                                        dropdownSearchDecoration:
-                                        InputDecoration(
-                                          border: InputBorder.none,
-                                          // hintText: StringConstants.selectBillingDays
-                                        )),
-                                    onChanged: (val) {
-                                      // selectedCustomer = val;
-                                      setState(() {
-                                        // initializeState(val);
-                                      });
-                                    },
-                                    // selectedItem: _chosenValue1,
-                                  )),
+                              DropDown(
+                                  menuItem:
+                                  listShippingFirmWidgets(_addProductController),
+                                  hint: StringConstants.selectShippping,
+                                  selectedValue: selectedShippingValue,
+                                  onChanged: (value) => {
+                                    // controller.getCustomerFirm(account!),
+                                    setState(() => {
+                                      selectedShippingValue = value,
+                                      selectedShippingName =
+                                          selectedShippingValue!
+                                              .accountName,
+                                      shipping = selectedShippingValue!
+                                          .accountId
+                                    })
+                                  }),
                             ],
                           ),
+
                         const SizedBox(
                           height: 10,
                         ),
@@ -906,14 +924,11 @@ class _NewOrderState extends State<NewOrder> {
                         ),
                         Container(
                             height: 45,
-                            width: MediaQuery
-                                .of(context)
-                                .size
-                                .width,
+                            width: MediaQuery.of(context).size.width,
                             padding: const EdgeInsets.symmetric(horizontal: 16),
                             decoration: BoxDecoration(
-                                border: Border.all(
-                                    color: Colors.grey, width: 1),
+                                border:
+                                    Border.all(color: Colors.grey, width: 1),
                                 borderRadius: BorderRadius.circular(5)),
                             child: DropdownSearch<String>(
                               popupProps: PopupProps.dialog(
@@ -921,7 +936,8 @@ class _NewOrderState extends State<NewOrder> {
                                     shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(2)),
                                   ),
-                                  showSearchBox: true, showSelectedItems: true),
+                                  showSearchBox: true,
+                                  showSelectedItems: true),
                               items: const [
                                 'abc',
                                 'xyz',
@@ -930,11 +946,12 @@ class _NewOrderState extends State<NewOrder> {
                                 'asd',
                                 'rtg'
                               ],
-                              dropdownDecoratorProps: const DropDownDecoratorProps(
-                                  dropdownSearchDecoration: InputDecoration(
-                                      border: InputBorder.none,
-                                      hintText: StringConstants
-                                          .selectBillingDays)),
+                              dropdownDecoratorProps:
+                                  const DropDownDecoratorProps(
+                                      dropdownSearchDecoration: InputDecoration(
+                                          border: InputBorder.none,
+                                          hintText: StringConstants
+                                              .selectBillingDays)),
                               onChanged: (val) {
                                 // selectedCustomer = val;
                                 setState(() {
@@ -955,70 +972,127 @@ class _NewOrderState extends State<NewOrder> {
                             text: StringConstants.submit,
                             btnColor: ColorConstants.primaryColor,
                             btnWidth: 290,
-                            press: () {})),
+                            press: () async {
+                              await controller.getOrderEntry(
+                                  account!,
+                                  party!,
+                                  salesmanid!,
+                                  supplierid!,
+                                  style!,
+                                  transport!,
+                                  own!);
+                            })),
                   ],
                 ),
               )));
     });
   }
 
-  listAccountWidgets(AddProductController controller){
-    return controller.account!.map((item) => DropdownMenuItem<Parties>(
-        value: item,
-        child: Text('${item.accountName}',style: LotOfThemes.txt14DarkSmall,
-          overflow: TextOverflow.ellipsis,
-        ))).toList();
+  listAccountWidgets(AddProductController controller) {
+    return controller.account!
+        .map((item) => DropdownMenuItem<Parties>(
+            value: item,
+            child: Text(
+              '${item.accountName}',
+              style: LotOfThemes.txt14DarkSmall,
+              overflow: TextOverflow.ellipsis,
+            )))
+        .toList();
   }
 
-  listPartyWidgets(AddProductController controller){
-    return controller.party!.map((item) => DropdownMenuItem<Parties>(
-        value: item,
-        child: Text('${item.accountName}',style: LotOfThemes.txt14DarkSmall,
-          overflow: TextOverflow.ellipsis,
-        ))).toList();
+  listPartyWidgets(AddProductController controller) {
+    return controller.party!
+        .map((item) => DropdownMenuItem<Parties>(
+            value: item,
+            child: Text(
+              '${item.accountName}',
+              style: LotOfThemes.txt14DarkSmall,
+              overflow: TextOverflow.ellipsis,
+            )))
+        .toList();
   }
 
-  listSalesmanWidgets(AddProductController controller){
-    return controller.parties!.map((item) => DropdownMenuItem<Parties>(
-        value: item,
-        child: Text('${item.accountName}',style: LotOfThemes.txt14DarkSmall,
-          overflow: TextOverflow.ellipsis,
-        ))).toList();
+  listSalesmanWidgets(AddProductController controller) {
+    return controller.parties!
+        .map((item) => DropdownMenuItem<Parties>(
+            value: item,
+            child: Text(
+              '${item.accountName}',
+              style: LotOfThemes.txt14DarkSmall,
+              overflow: TextOverflow.ellipsis,
+            )))
+        .toList();
   }
 
-  listTransportWidgets(AddProductController controller){
-    return controller.transport!.map((item) => DropdownMenuItem<Parties>(
-        value: item,
-        child: Text('${item.accountName}',style: LotOfThemes.txt14DarkSmall,
-          overflow: TextOverflow.ellipsis,
-        ))).toList();
+  listTransportWidgets(AddProductController controller) {
+    return controller.transport!
+        .map((item) => DropdownMenuItem<Parties>(
+            value: item,
+            child: Text(
+              '${item.accountName}',
+              style: LotOfThemes.txt14DarkSmall,
+              overflow: TextOverflow.ellipsis,
+            )))
+        .toList();
   }
 
-  listOwnFirmWidgets(AddProductController controller){
-    return controller.ownFirm!.map((item) => DropdownMenuItem<Parties>(
-        value: item,
-        child: Text('${item.accountName}',style: LotOfThemes.txt14DarkSmall,
-          overflow: TextOverflow.ellipsis,
-        ))).toList();
+  listOwnFirmWidgets(AddProductController controller) {
+    return controller.ownFirm!
+        .map((item) => DropdownMenuItem<Parties>(
+            value: item,
+            child: Text(
+              '${item.accountName}',
+              style: LotOfThemes.txt14DarkSmall,
+              overflow: TextOverflow.ellipsis,
+            )))
+        .toList();
   }
 
-  listSupplierWidgets(AddProductController controller){
-    return controller.supplier!.map((item) => DropdownMenuItem<Parties>(
-        value: item,
-        child: Text('${item.accountName}',style: LotOfThemes.txt14DarkSmall,
-          overflow: TextOverflow.ellipsis,
-        ))).toList();
+  listCustomerFirmWidgets(AddProductController controller) {
+    return controller.customerFirm!
+        .map((item) => DropdownMenuItem<Parties>(
+            value: item,
+            child: Text(
+              '${item.accountName}',
+              style: LotOfThemes.txt14DarkSmall,
+              overflow: TextOverflow.ellipsis,
+            )))
+        .toList();
   }
 
-  listStyleWidgets(AddProductController controller){
-    return controller.style!.map((item) => DropdownMenuItem<StyleCategories>(
-        value: item,
-        child: Text('${item.styleCategoryName}',style: LotOfThemes.txt14DarkSmall,
-          overflow: TextOverflow.ellipsis,
-        ))).toList();
+  listShippingFirmWidgets(AddProductController controller) {
+    return controller.shippingFirm!
+        .map((item) => DropdownMenuItem<Parties>(
+            value: item,
+            child: Text(
+              '${item.accountName}',
+              style: LotOfThemes.txt14DarkSmall,
+              overflow: TextOverflow.ellipsis,
+            )))
+        .toList();
   }
 
-  void getStyle() async {
-    await _addProductController.getStyleCategory(selectedSupplierName!);
+  listSupplierWidgets(AddProductController controller) {
+    return controller.supplier!
+        .map((item) => DropdownMenuItem<Parties>(
+            value: item,
+            child: Text(
+              '${item.accountName}',
+              style: LotOfThemes.txt14DarkSmall,
+              overflow: TextOverflow.ellipsis,
+            )))
+        .toList();
+  }
+
+  listStyleWidgets(AddProductController controller) {
+    return controller.style!
+        .map((item) => DropdownMenuItem<StyleCategories>(
+            value: item,
+            child: Text(
+              '${item.styleCategoryName}',
+              style: LotOfThemes.txt14DarkSmall,
+              overflow: TextOverflow.ellipsis,
+            )))
+        .toList();
   }
 }

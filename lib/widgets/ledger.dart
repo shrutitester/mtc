@@ -1,4 +1,4 @@
-import 'package:dropdown_search/dropdown_search.dart';
+import 'package:custom_searchable_dropdown/custom_searchable_dropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:get/get.dart';
@@ -32,10 +32,10 @@ class _LedgerState extends State<Ledger> {
   Place? _place;
   bool _homeFieldVisible = false;
   final AddProductController _addProductController = Get.find();
-  String? selectedCityName = 'Select City', selectedAccountName = 'Select Account';
+  String? selectedCityName = 'Select City', selectedAccountName = 'Select Account', account ='', city = '';
   Citys? selectedCityValue;
   Parties? selectedAccountValue;
-
+var selected;
 
   void handleSelection(Place? value) {
     setState(() {
@@ -70,16 +70,45 @@ class _LedgerState extends State<Ledger> {
             padding: const EdgeInsets.all(8.0),
             child: Column(
               children: [
-                DropDown(
-                    menuItem: listAccountWidgets(controller),
-                    hint: StringConstants.selectAccount,
-                    selectedValue: selectedAccountValue,
-                    onChanged: (value) => {
-                      setState(() => {
-                        selectedAccountValue = value,
-                        selectedAccountName = selectedAccountValue!.accountName,
-                      })
-                    }),
+                CustomSearchableDropDown(
+                  items: controller.account ?? [],
+                  label: StringConstants.selectAccount,
+                  // multiSelectTag: 'Names',
+                  // multiSelectValuesAsWidget: true,
+                  // multiSelect: true,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(4),
+                      border: Border.all(color: Colors.grey)),
+                  dropDownMenuItems: controller.account?.map((item) {
+                    return item.accountName;
+                  }).toList() ??
+                      [],
+                  onChanged: (value) {
+                    if (value != null) {
+                      selected = value.toString();
+                    } else {
+                      selected = null;
+                    }
+                    setState(() => {
+                      selectedAccountValue = value,
+                      selectedAccountName =
+                          selectedAccountValue!.accountName,
+                      account = selectedAccountValue!.accountId!
+                    });
+                    // controller.getPendingCreditLimit(accountid!);
+                  },
+                ),
+                // DropDown(
+                //     menuItem: listAccountWidgets(controller),
+                //     hint: StringConstants.selectAccount,
+                //     selectedValue: selectedAccountValue,
+                //     onChanged: (value) => {
+                //       setState(() => {
+                //         selectedAccountValue = value,
+                //         selectedAccountName = selectedAccountValue!.accountName,
+                //         account = selectedAccountValue!.accountId!
+                //       })
+                //     }),
                 // Container(
                 //     height: 45,
                 //     width: MediaQuery
@@ -231,16 +260,45 @@ class _LedgerState extends State<Ledger> {
                 if (_homeFieldVisible)
                   Column(
                     children: [
-                      DropDown(
-                          menuItem: listCityWidgets(controller),
-                          hint: StringConstants.selectCity,
-                          selectedValue: selectedCityValue,
-                          onChanged: (value) => {
-                            setState(() => {
-                              selectedCityValue = value,
-                              selectedCityName = selectedCityValue!.cityName,
-                            })
-                          }),
+                      CustomSearchableDropDown(
+                        items: controller.city ?? [],
+                        label: StringConstants.selectAccount,
+                        // multiSelectTag: 'Names',
+                        // multiSelectValuesAsWidget: true,
+                        // multiSelect: true,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(4),
+                            border: Border.all(color: Colors.grey)),
+                        dropDownMenuItems: controller.city?.map((item) {
+                          return item.cityName;
+                        }).toList() ??
+                            [],
+                        onChanged: (value) {
+                          if (value != null) {
+                            selected = value.toString();
+                          } else {
+                            selected = null;
+                          }
+                          setState(() => {
+                            selectedAccountValue = value,
+                            selectedAccountName =
+                                selectedAccountValue!.accountName,
+                            city = selectedAccountValue!.accountId!
+                          });
+                          // controller.getPendingCreditLimit(accountid!);
+                        },
+                      ),
+                      // DropDown(
+                      //     menuItem: listCityWidgets(controller),
+                      //     hint: StringConstants.selectCity,
+                      //     selectedValue: selectedCityValue,
+                      //     onChanged: (value) => {
+                      //       setState(() => {
+                      //         selectedCityValue = value,
+                      //         selectedCityName = selectedCityValue!.cityName,
+                      //         city = selectedCityValue!.cityID
+                      //       })
+                      //     }),
                       // Container(
                       //     height: 45,
                       //     width: MediaQuery
@@ -347,7 +405,9 @@ class _LedgerState extends State<Ledger> {
                         text: StringConstants.view,
                         btnColor: ColorConstants.primaryColor,
                         btnWidth: 300,
-                        press: () {}))
+                        press: () async {
+                          await controller.getLedger(account!, city!);
+                        }))
               ],
             ),
           ),
